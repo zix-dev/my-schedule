@@ -1,15 +1,17 @@
 import { Time } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'general-configuration',
   templateUrl: './general-configuration.component.html',
   styleUrls: ['./general-configuration.component.scss']
 })
-export class GeneralConfigurationComponent implements OnInit {
+export class GeneralConfigurationComponent {
   constructor() { }
+  public n?: number;
+  public l(a: any) {
 
-  ngOnInit(): void {
+    console.log(a);
+
   }
-
 }

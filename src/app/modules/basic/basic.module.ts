@@ -7,12 +7,17 @@ import * as Components from './components/index'
 @NgModule({
   declarations: [
     Components.TimeBoxComponent,
-    Components.TimeSelectorComponent
+    Components.NumberBoxComponent,
+    Components.TextBoxComponent
   ],
   imports: [
     CommonModule,
     AngularMaterialModule
   ],
-  exports: [Components.TimeBoxComponent]
+  exports: [
+    Components.TimeBoxComponent,
+    Components.NumberBoxComponent,
+    Components.TextBoxComponent
+  ]
 })
 export class BasicModule { }

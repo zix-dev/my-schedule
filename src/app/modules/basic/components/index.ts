@@ -1,2 +1,3 @@
 export * from './time-box/time-box.component'
-export * from './time-box/time-selector/time-selector.component'
+export * from './number-box/number-box.component';
+export * from './text-box/text-box.component'

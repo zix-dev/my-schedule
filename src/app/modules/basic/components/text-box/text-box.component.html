@@ -3,12 +3,13 @@
   <mat-hint *ngIf="hint">{{ hint }}</mat-hint>
   <input
     matInput
-    type="time"
-    [(ngModel)]="stringValue"
+    type="text"
+    [(ngModel)]="value"
     [placeholder]="placeholder"
     [readonly]="readonly"
     [disabled]="disabled"
-    (ngModelChange)="valueChanged()"
+    [maxlength]="maxLength ?? null"
+    (ngModelChange)="valueChange.emit($event)"
   />
   <mat-error *ngIf="error">{{ error }}</mat-error>
 </mat-form-field>

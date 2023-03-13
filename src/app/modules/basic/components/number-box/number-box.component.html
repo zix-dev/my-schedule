@@ -1,14 +1,17 @@
-<mat-form-field appearance="outline">
+<mat-form-field #ff appearance="outline">
   <mat-label *ngIf="label">{{ label }}</mat-label>
   <mat-hint *ngIf="hint">{{ hint }}</mat-hint>
   <input
+    #input
     matInput
-    type="time"
-    [(ngModel)]="stringValue"
+    type="number"
+    [(ngModel)]="value"
     [placeholder]="placeholder"
+    [min]="min ?? null"
+    [max]="max ?? null"
     [readonly]="readonly"
     [disabled]="disabled"
-    (ngModelChange)="valueChanged()"
+    (ngModelChange)="valueChange.emit($event)"
   />
   <mat-error *ngIf="error">{{ error }}</mat-error>
 </mat-form-field>
