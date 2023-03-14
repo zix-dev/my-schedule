@@ -8,7 +8,7 @@ import * as Components from './components/index'
   declarations: [
     Components.TimeBoxComponent,
     Components.NumberBoxComponent,
-    Components.TextBoxComponent
+    Components.TextBoxComponent,
   ],
   imports: [
     CommonModule,

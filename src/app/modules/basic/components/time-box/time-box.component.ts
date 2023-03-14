@@ -33,10 +33,6 @@ export class TimeBoxComponent {
    */
   @Input() public disabled: boolean = false;
   /**
-   * Value as string
-   */
-  public stringValue?: string;
-  /**
    * Value of the control
    */
   private _value?: Time;
@@ -45,7 +41,8 @@ export class TimeBoxComponent {
    */
   @Input() public set value(val: Time | undefined) {
     this._value = val;
-    this.stringValue = timeToString(val)
+    this._stringValue = timeToString(val) ?? '';
+    this.valueChange.emit(this.value)
   }
   /**
    * Value getter
@@ -54,11 +51,25 @@ export class TimeBoxComponent {
     return this._value;
   }
   /**
+   * Value as string
+   */
+  private _stringValue: string = '';
+  /**
+   * String value setter
+   */
+  public set stringValue(val: string) {
+    this._stringValue = val;
+    this._value = stringToTime(val);
+    this.valueChange.emit(this.value)
+  }
+  /**
+   * String value getter
+   */
+  public get stringValue(): string {
+    return this._stringValue;
+  }
+  /**
    * Emits when value is changed
    */
   @Output() public readonly valueChange = new EventEmitter<Time>();
-  public valueChanged(): void {
-    this.value = stringToTime(this.stringValue);
-    this.valueChange.emit(this.value)
-  }
 }
