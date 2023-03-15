@@ -1,0 +1,7 @@
+full-calendar ::ng-deep {
+
+  .fc-timeGridDay-view .fc-event .fc-daygrid-event-dot,
+  .fc-timeGridWeek-view .fc-event .fc-daygrid-event-dot {
+    display: none
+  }
+}

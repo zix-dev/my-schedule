@@ -1,5 +1,4 @@
 import { Time } from '@angular/common';
-export type TimeRange = {
-  start?: Time;
-  end?: Time;
-}
+import { Range } from './generics'
+export type TimeRange = Range<Time>
+export type DateRange = Range<Date>

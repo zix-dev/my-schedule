@@ -4,6 +4,7 @@ import { CommonModule as AngularCommonModule } from '@angular/common';
 import * as Components from './components/index'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '../common/common.module';
+import { CalendarModule } from '../calendar/calendar.module';
 
 
 @NgModule({
@@ -13,7 +14,8 @@ import { CommonModule } from '../common/common.module';
     BasicModule,
     FormsModule,
     ReactiveFormsModule,
-    CommonModule
+    CommonModule,
+    CalendarModule
   ],
   exports: [Components.GeneralConfigurationComponent]
 })
