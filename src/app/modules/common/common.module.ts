@@ -1,20 +1,19 @@
+import { BasicModule } from './../basic/basic.module';
 import { NgModule } from '@angular/core';
 import { CommonModule as AngularCommonModule } from '@angular/common';
 import * as Pipes from './pipes/index';
-import * as Components from './components/index';
 
 
 @NgModule({
   declarations: [
-    Components.TimeRangeSelectorComponent,
     Pipes.TimeStringPipe,
   ],
   imports: [
-    AngularCommonModule,
+    AngularCommonModule, BasicModule
   ],
   exports: [
-    Components.TimeRangeSelectorComponent,
-    Pipes.TimeStringPipe
+    Pipes.TimeStringPipe,
+    BasicModule
   ]
 })
 export class CommonModule { }

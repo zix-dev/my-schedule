@@ -33,3 +33,8 @@ div.mat-form-field-wrapper {
 div.mat-form-field-infix {
   border-top-width: 0;
 }
+
+mat-dialog-container.mat-dialog-container {
+  padding: 0;
+  overflow: hidden;
+}

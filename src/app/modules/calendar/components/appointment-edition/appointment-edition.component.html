@@ -1,0 +1,22 @@
+<div class="header">
+  <div class="title">Reserva</div>
+  <div class="subtitle">Dia: {{ data.day | date }}</div>
+</div>
+<hr />
+
+<div class="body flex-col gap-10">
+  <div>
+    <div class="label">Titulo:</div>
+    <text-box placeholder="agrega un título" [(value)]="data.title"></text-box>
+  </div>
+  <div class="times flex align-center wrap">
+    <div>
+      <div class="label">Inicio:</div>
+      <time-box [(value)]="data.start"></time-box>
+    </div>
+    <div>
+      <div class="label">Fin:</div>
+      <time-box [(value)]="data.end"></time-box>
+    </div>
+  </div>
+</div>
