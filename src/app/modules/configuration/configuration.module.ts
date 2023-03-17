@@ -7,7 +7,10 @@ import { CommonModule } from '../common/common.module';
 
 
 @NgModule({
-  declarations: [Components.GeneralConfigurationComponent],
+  declarations: [
+    Components.GeneralConfigurationComponent,
+    Components.PersonalRoomsAndMachinesComponent
+  ],
   imports: [
     AngularCommonModule,
     BasicModule,
@@ -15,6 +18,9 @@ import { CommonModule } from '../common/common.module';
     ReactiveFormsModule,
     CommonModule
   ],
-  exports: [Components.GeneralConfigurationComponent]
+  exports: [
+    Components.GeneralConfigurationComponent,
+    Components.PersonalRoomsAndMachinesComponent
+  ]
 })
 export class ConfigurationModule { }

@@ -10,7 +10,8 @@ import * as Components from './components/index'
     Components.NumberBoxComponent,
     Components.TextBoxComponent,
     Components.BtnComponent,
-    Components.AutocompleteComponent
+    Components.AutocompleteComponent,
+    Components.ColorBoxComponent
   ],
   imports: [
     CommonModule,
@@ -21,7 +22,8 @@ import * as Components from './components/index'
     Components.NumberBoxComponent,
     Components.TextBoxComponent,
     Components.BtnComponent,
-    Components.AutocompleteComponent
+    Components.AutocompleteComponent,
+    Components.ColorBoxComponent
   ]
 })
 export class BasicModule { }

@@ -1,0 +1,17 @@
+<mat-form-field
+  appearance="outline"
+  [class.mat-form-field-has-hint]="hint != null"
+>
+  <mat-label *ngIf="label">{{ label }}</mat-label>
+  <mat-hint *ngIf="hint">{{ hint }}</mat-hint>
+  <input
+    matInput
+    type="color"
+    [(ngModel)]="value"
+    [placeholder]="placeholder"
+    [readonly]="readonly"
+    [disabled]="disabled"
+    (ngModelChange)="valueChange.emit($event)"
+  />
+  <mat-error *ngIf="error">{{ error }}</mat-error>
+</mat-form-field>

@@ -1,5 +1,15 @@
-import { TimeRange } from "../../common/models/time.models";
+export type Employee = {
+  id?: string;
+  name: string;
+  color: string;
+}
 
-export type GeneralConfig = {
-  openHoursRanges: TimeRange[];
+export type Room = {
+  id?: string;
+  name: string;
+}
+
+export type Machine = {
+  id?: string;
+  name: string;
 }

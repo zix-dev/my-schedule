@@ -1,0 +1,30 @@
+.group-name {
+  font-weight: bold;
+  border-bottom: 1px solid #bdbdbd;
+  margin-top: 15px;
+  padding-bottom: 1px;
+
+  &:first-child {
+    margin-top: 0;
+  }
+}
+
+.list-item {
+  margin-top: 5px;
+  background-color: #ececec;
+  border-radius: 5px;
+  padding: 5px;
+  transition: background-color ease 200ms;
+
+  &:hover {
+    background-color: #e0e0e0
+  }
+}
+
+.color-dot {
+  width: 10px;
+  height: 10px;
+  display: inline-block;
+  border-radius: 5px;
+  margin-left: 5px;
+}

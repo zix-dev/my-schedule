@@ -1,0 +1,25 @@
+<div class="flex">
+  <div class="grow">
+    <div class="Personal">
+      <div *ngIf="config.personal.length != 0" class="group-name">Personal</div>
+      <div class="list-item" *ngFor="let employee of config.personal">
+        <span>{{ employee.name }}</span
+        ><span
+          class="color-dot"
+          [style.background-color]="employee.color"
+        ></span>
+      </div>
+      <div *ngIf="config.rooms.length != 0" class="group-name">
+        Habitaciones
+      </div>
+      <div class="list-item" *ngFor="let room of config.rooms">
+        <span>{{ room.name }}</span>
+      </div>
+      <div *ngIf="config.machines.length != 0" class="group-name">Máquinas</div>
+      <div class="list-item" *ngFor="let machine of config.machines">
+        <span>{{ machine.name }}</span>
+      </div>
+    </div>
+  </div>
+  <sidebar></sidebar>
+</div>

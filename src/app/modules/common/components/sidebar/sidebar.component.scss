@@ -1,0 +1,25 @@
+$width: var(--width);
+$animation: ease 400ms;
+
+:host {
+  width: 0;
+  max-width: 0;
+  min-width: 0;
+
+  &.opened {
+    width: $width;
+    max-width: $width;
+    min-width: $width;
+  }
+
+  transition: width $animation,
+  max-width $animation,
+  min-width $animation;
+}
+
+.sidebar-container {
+  min-width: 100%;
+  width: $width;
+  height: 100%;
+  overflow: hidden;
+}
