@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -22,7 +23,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     MatMenuModule,
     MatDialogModule,
     MatTooltipModule,
-    MatButtonModule
+    MatButtonModule,
+    MatAutocompleteModule
   ],
   exports: [
     MatDatepickerModule,
@@ -34,7 +36,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     MatMenuModule,
     MatDialogModule,
     MatTooltipModule,
-    MatButtonModule
+    MatButtonModule,
+    MatAutocompleteModule
   ]
 })
 export class AngularMaterialModule { }
