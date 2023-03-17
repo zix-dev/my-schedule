@@ -3,10 +3,9 @@ import { Time } from '@angular/common';
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'timeString',
-  pure: false
+  name: 'time',
 })
-export class TimeStringPipe implements PipeTransform {
+export class TimePipe implements PipeTransform {
 
   transform(value?: Time): string | undefined {
     return timeToString(value)

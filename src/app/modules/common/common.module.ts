@@ -6,13 +6,15 @@ import * as Pipes from './pipes/index';
 
 @NgModule({
   declarations: [
-    Pipes.TimeStringPipe,
+    Pipes.TimePipe,
+    Pipes.TimestampPipe,
   ],
   imports: [
     AngularCommonModule, BasicModule
   ],
   exports: [
-    Pipes.TimeStringPipe,
+    Pipes.TimePipe,
+    Pipes.TimestampPipe,
     BasicModule
   ]
 })

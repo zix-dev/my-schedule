@@ -1,7 +1,11 @@
 import { Time } from '@angular/common';
+import { Timestamp } from 'firebase/firestore';
+
+
 export type Reservation = {
+  id?: string,
   title: string;
-  day: Date,
-  start: Time,
-  end: Time,
+  start: Time;
+  end: Time;
+  day: Timestamp;
 }
