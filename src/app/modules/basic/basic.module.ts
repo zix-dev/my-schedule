@@ -9,6 +9,7 @@ import * as Components from './components/index'
     Components.TimeBoxComponent,
     Components.NumberBoxComponent,
     Components.TextBoxComponent,
+    Components.BtnComponent
   ],
   imports: [
     CommonModule,
@@ -17,7 +18,8 @@ import * as Components from './components/index'
   exports: [
     Components.TimeBoxComponent,
     Components.NumberBoxComponent,
-    Components.TextBoxComponent
+    Components.TextBoxComponent,
+    Components.BtnComponent
   ]
 })
 export class BasicModule { }

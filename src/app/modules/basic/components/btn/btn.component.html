@@ -1,0 +1,10 @@
+<button
+  mat-flat-button
+  [color]="type"
+  [disabled]="disabled"
+  (click)="onClick.emit()"
+  (dblclick)="onDblClick.emit()"
+  (auxclick)="onRightClick.emit()"
+>
+  {{ text }}
+</button>

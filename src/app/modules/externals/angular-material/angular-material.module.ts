@@ -5,6 +5,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -20,7 +21,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     ReactiveFormsModule,
     MatMenuModule,
     MatDialogModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatButtonModule
   ],
   exports: [
     MatDatepickerModule,
@@ -31,7 +33,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     ReactiveFormsModule,
     MatMenuModule,
     MatDialogModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatButtonModule
   ]
 })
 export class AngularMaterialModule { }

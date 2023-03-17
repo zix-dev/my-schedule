@@ -1,12 +1,6 @@
-<!--<div class="flex gap-10">
-  <div flex><div class="flex-center" style="height: 41px">Horario*:</div></div>
-  <div class="flex-col gap-5">
-    <ng-container *ngIf="config?.openHoursRanges != null">
-      <div *ngFor="let range of config!.openHoursRanges">
-        De {{ range.start | timeString }} a {{ range.end | timeString }}
-      </div>
-    </ng-container>
-  </div>
-  <button (click)="openPopup()">wefdc</button>
-</div>-->
-<calendar></calendar>
+<btn
+  text="hello"
+  (onClick)="test(1)"
+  (onDblClick)="test(2)"
+  (onRightClick)="test(3)"
+></btn>

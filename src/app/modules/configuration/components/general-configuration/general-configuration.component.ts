@@ -21,4 +21,9 @@ export class GeneralConfigurationComponent implements OnDestroy {
   public ngOnDestroy(): void {
     this._subs.forEach(sub => sub.unsubscribe());
   }
+
+  public test(a: any) {
+    console.log(a);
+
+  }
 }
