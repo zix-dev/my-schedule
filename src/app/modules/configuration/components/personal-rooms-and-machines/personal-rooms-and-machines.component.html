@@ -1,50 +1,76 @@
-<div class="flex">
+<div class="flex main-content">
   <div class="grow">
-    <div class="Personal">
-      <div *ngIf="config.personal.length != 0" class="group-name">Personal</div>
-      <div
-        class="list-item"
-        *ngFor="let employee of config.personal"
-        (click)="selectEmployee(employee)"
-      >
-        <span>{{ employee.name }}</span
-        ><span
-          class="color-dot"
-          [style.background-color]="employee.color"
-        ></span>
+    <scroll scroll="both">
+      <div class="Personal">
+        <div class="group-name">
+          Personal <span class="add" (click)="addEmployee()">Añadir...</span>
+        </div>
+        <div
+          class="list-item"
+          [class.selected]="employee.id == selectedEmployee?.id"
+          *ngFor="let employee of config.personal"
+          (click)="selectEmployee(employee)"
+        >
+          <span>{{ employee.name }}</span
+          ><span
+            class="color-dot"
+            [style.background-color]="employee.color"
+          ></span>
+        </div>
+        <div class="group-name">
+          Habitaciones <span class="add" (click)="addRoom()">Añadir...</span>
+        </div>
+        <div
+          class="list-item"
+          [class.selected]="room.id == selectedRoom?.id"
+          *ngFor="let room of config.rooms"
+          (click)="selectRoom(room)"
+        >
+          <span>{{ room.name }}</span>
+        </div>
+        <div class="group-name">
+          Máquinas <span class="add" (click)="addMachine()">Añadir...</span>
+        </div>
+        <div
+          class="list-item"
+          [class.selected]="machine.id == selectedMachine?.id"
+          *ngFor="let machine of config.machines"
+          (click)="selectMachine(machine)"
+        >
+          <span>{{ machine.name }}</span>
+        </div>
       </div>
-      <div *ngIf="config.rooms.length != 0" class="group-name">
-        Habitaciones
-      </div>
-      <div
-        class="list-item"
-        *ngFor="let room of config.rooms"
-        (click)="selectRoom(room)"
-      >
-        <span>{{ room.name }}</span>
-      </div>
-      <div *ngIf="config.machines.length != 0" class="group-name">Máquinas</div>
-      <div
-        class="list-item"
-        *ngFor="let machine of config.machines"
-        (click)="selectMachine(machine)"
-      >
-        <span>{{ machine.name }}</span>
-      </div>
-    </div>
+    </scroll>
   </div>
   <sidebar [opened]="sidebarOpened">
-    <div class="sidebar-content flex-col gap-15">
-      <ng-container *ngIf="selectedEmployee != null; else room">
-        <div class="field">
-          <span>Nombre: </span>
-          <text-box [(value)]="selectedEmployee.name"></text-box>
-        </div>
-        <div class="field">
-          <span>Color: </span>
-          <color-box [(value)]="selectedEmployee.color"></color-box>
-        </div>
-      </ng-container>
+    <div class="sidebar-content">
+      <div class="flex-col grow gap-15">
+        <ng-container *ngIf="selectedEmployee != null; else room">
+          <div class="field">
+            <span>Nombre: </span>
+            <text-box
+              [(value)]="selectedEmployee.name"
+              (valueChange)="checkDirty()"
+            ></text-box>
+          </div>
+          <div class="field">
+            <span>Color: </span>
+            <color-box
+              [(value)]="selectedEmployee.color"
+              (valueChange)="checkDirty()"
+            ></color-box>
+          </div>
+        </ng-container>
+      </div>
+      <div class="flex gap-5 justify-end">
+        <btn
+          [disabled]="pristine"
+          type="primary"
+          text="Guardar"
+          (onClick)="save()"
+        ></btn>
+        <btn text="Cancelar" (onClick)="sidebarOpened = false"></btn>
+      </div>
     </div>
   </sidebar>
 </div>
@@ -53,14 +79,20 @@
   <ng-container *ngIf="selectedRoom != null; else machine">
     <div class="field">
       <span>Nombre: </span>
-      <text-box [(value)]="selectedRoom.name"></text-box>
+      <text-box
+        [(value)]="selectedRoom.name"
+        (valueChange)="checkDirty()"
+      ></text-box>
     </div>
   </ng-container>
 </ng-template>
 
 <ng-template #machine>
-  <div class="field">
+  <div *ngIf="selectedMachine != null" class="field">
     <span>Nombre: </span>
-    <text-box [(value)]="selectedMachine!.name"></text-box>
+    <text-box
+      [(value)]="selectedMachine!.name"
+      (valueChange)="checkDirty()"
+    ></text-box>
   </div>
 </ng-template>

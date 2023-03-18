@@ -12,9 +12,10 @@ export class ConfigService implements OnDestroy {
   public machines!: Machine[];
   private _subs: Subscription[] = [];
   constructor(private _db: DatabaseService) {
-    this._db.get<Employee>('personal').subscribe(result => this.personal = result);
-    this._db.get<Room>('rooms').subscribe(result => this.rooms = result);
-    this._db.get<Machine>('machines').subscribe(result => this.machines = result);
+    const sort = (a: { name: string }, b: { name: string }) => (a.name > b.name ? 1 : -1);
+    this._db.get<Employee>('personal').subscribe(result => this.personal = result.sort(sort));
+    this._db.get<Room>('rooms').subscribe(result => this.rooms = result.sort(sort));
+    this._db.get<Machine>('machines').subscribe(result => this.machines = result.sort(sort));
   }
   public ngOnDestroy(): void {
     this._subs.forEach(sub => sub.unsubscribe());

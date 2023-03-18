@@ -35,7 +35,10 @@ $my-schedule-theme: mat.define-light-theme((color: (primary: $my-schedule-primar
 
 html,
 body {
+  display: flex;
+  flex-direction: column;
   height: 100%;
+  overflow: hidden;
 }
 
 body {

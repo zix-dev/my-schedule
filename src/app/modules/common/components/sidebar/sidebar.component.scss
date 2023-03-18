@@ -22,4 +22,6 @@ $animation: ease 400ms;
   width: $width;
   height: 100%;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }

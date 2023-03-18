@@ -1,3 +1,12 @@
+:host {
+  overflow: hidden;
+}
+
+.main-content {
+  overflow: hidden;
+  max-height: 100%;
+}
+
 .group-name {
   font-weight: bold;
   border-bottom: 1px solid #bdbdbd;
@@ -6,6 +15,26 @@
 
   &:first-child {
     margin-top: 0;
+  }
+
+  .add {
+    font-size: 14px;
+    text-decoration: underline;
+    color: #b0b0b0;
+    font-weight: normal;
+    margin-left: 5px;
+    opacity: 0;
+    transition: opacity 200ms ease;
+    cursor: pointer;
+
+    &:hover {
+      font-weight: 500;
+      color: #858585;
+    }
+  }
+
+  &:hover .add {
+    opacity: 1;
   }
 }
 
@@ -18,6 +47,10 @@
 
   &:hover {
     background-color: #e0e0e0
+  }
+
+  &.selected {
+    background-color: #c8c8dc;
   }
 }
 
@@ -35,5 +68,14 @@
   align-items: center;
   flex-wrap: wrap;
   row-gap: 10px;
-  column-gap: 30px;
+  column-gap: 15px;
+}
+
+.sidebar-content {
+  background-color: #ececec;
+  height: 100%;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
