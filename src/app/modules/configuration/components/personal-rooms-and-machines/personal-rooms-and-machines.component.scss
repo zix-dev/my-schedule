@@ -2,7 +2,7 @@
   font-weight: bold;
   border-bottom: 1px solid #bdbdbd;
   margin-top: 15px;
-  padding-bottom: 1px;
+  padding: 0 10px 1px;
 
   &:first-child {
     margin-top: 0;
@@ -10,7 +10,7 @@
 }
 
 .list-item {
-  margin-top: 5px;
+  margin: 5px 10px 0;
   background-color: #ececec;
   border-radius: 5px;
   padding: 5px;
@@ -25,6 +25,15 @@
   width: 10px;
   height: 10px;
   display: inline-block;
-  border-radius: 5px;
+  border-radius: 3px;
   margin-left: 5px;
+  border: 1px solid #bdbdbd;
+}
+
+.field {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  row-gap: 10px;
+  column-gap: 30px;
 }

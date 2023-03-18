@@ -2,7 +2,11 @@
   <div class="grow">
     <div class="Personal">
       <div *ngIf="config.personal.length != 0" class="group-name">Personal</div>
-      <div class="list-item" *ngFor="let employee of config.personal">
+      <div
+        class="list-item"
+        *ngFor="let employee of config.personal"
+        (click)="selectEmployee(employee)"
+      >
         <span>{{ employee.name }}</span
         ><span
           class="color-dot"
@@ -12,14 +16,51 @@
       <div *ngIf="config.rooms.length != 0" class="group-name">
         Habitaciones
       </div>
-      <div class="list-item" *ngFor="let room of config.rooms">
+      <div
+        class="list-item"
+        *ngFor="let room of config.rooms"
+        (click)="selectRoom(room)"
+      >
         <span>{{ room.name }}</span>
       </div>
       <div *ngIf="config.machines.length != 0" class="group-name">Máquinas</div>
-      <div class="list-item" *ngFor="let machine of config.machines">
+      <div
+        class="list-item"
+        *ngFor="let machine of config.machines"
+        (click)="selectMachine(machine)"
+      >
         <span>{{ machine.name }}</span>
       </div>
     </div>
   </div>
-  <sidebar></sidebar>
+  <sidebar [opened]="sidebarOpened">
+    <div class="sidebar-content flex-col gap-15">
+      <ng-container *ngIf="selectedEmployee != null; else room">
+        <div class="field">
+          <span>Nombre: </span>
+          <text-box [(value)]="selectedEmployee.name"></text-box>
+        </div>
+        <div class="field">
+          <span>Color: </span>
+          <color-box [(value)]="selectedEmployee.color"></color-box>
+        </div>
+      </ng-container>
+    </div>
+  </sidebar>
 </div>
+
+<ng-template #room>
+  <ng-container *ngIf="selectedRoom != null; else machine">
+    <div class="field">
+      <span>Nombre: </span>
+      <text-box [(value)]="selectedRoom.name"></text-box>
+    </div>
+  </ng-container>
+</ng-template>
+
+<ng-template #machine>
+  <div class="field">
+    <span>Nombre: </span>
+    <text-box [(value)]="selectedMachine!.name"></text-box>
+  </div>
+</ng-template>
