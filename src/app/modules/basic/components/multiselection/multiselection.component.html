@@ -1,0 +1,8 @@
+<mat-form-field appearance="outline">
+  <mat-select [(ngModel)]="selection" multiple>
+    <mat-select-trigger> Helloo </mat-select-trigger>
+    <mat-option *ngFor="let topping of toppingList" [value]="topping">{{
+      topping
+    }}</mat-option>
+  </mat-select>
+</mat-form-field>

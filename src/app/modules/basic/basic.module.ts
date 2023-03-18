@@ -11,7 +11,8 @@ import * as Components from './components/index'
     Components.TextBoxComponent,
     Components.BtnComponent,
     Components.AutocompleteComponent,
-    Components.ColorBoxComponent
+    Components.ColorBoxComponent,
+    Components.MultiselectionComponent
   ],
   imports: [
     CommonModule,
@@ -23,7 +24,8 @@ import * as Components from './components/index'
     Components.TextBoxComponent,
     Components.BtnComponent,
     Components.AutocompleteComponent,
-    Components.ColorBoxComponent
+    Components.ColorBoxComponent,
+    Components.MultiselectionComponent
   ]
 })
 export class BasicModule { }

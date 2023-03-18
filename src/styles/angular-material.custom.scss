@@ -6,6 +6,9 @@ mat-form-field.mat-form-field.mat-form-field-appearance-outline>div.mat-form-fie
   top: -10px;
 }
 
+mat-form-field.mat-form-field-type-mat-select.mat-form-field.mat-form-field-appearance-outline>div.mat-form-field-wrapper>div.mat-form-field-flex>div.mat-form-field-infix>span.mat-form-field-label-wrapper {
+  top: -14px;
+}
 
 .mat-form-field-appearance-outline.mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label {
   transform: translateY(-15px) scale(.75) !important;
@@ -37,4 +40,8 @@ div.mat-form-field-infix {
 mat-dialog-container.mat-dialog-container {
   padding: 0;
   overflow: hidden;
+}
+
+.mat-form-field-appearance-outline div.mat-select-arrow-wrapper {
+  transform: translateY(0);
 }
