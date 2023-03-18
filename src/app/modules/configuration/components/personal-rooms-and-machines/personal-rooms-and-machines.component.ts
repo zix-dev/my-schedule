@@ -25,22 +25,19 @@ export class PersonalRoomsAndMachinesComponent {
   public constructor(public config: ConfigService, private _db: DatabaseService) { }
 
   public selectEmployee(e: Employee): void {
+    this.unselect();
     this.selectedEmployee = { ...e };
-    this.selectedRoom = undefined;
-    this.selectedMachine = undefined;
     this.sidebarOpened = true;
   }
 
   public selectRoom(r: Room): void {
-    this.selectedEmployee = undefined;
+    this.unselect();
     this.selectedRoom = { ...r };
-    this.selectedMachine = undefined;
     this.sidebarOpened = true;
   }
 
   public selectMachine(m: Machine): void {
-    this.selectedEmployee = undefined;
-    this.selectedRoom = undefined;
+    this.unselect();
     this.selectedMachine = { ...m };
     this.sidebarOpened = true;
   }
@@ -87,6 +84,27 @@ export class PersonalRoomsAndMachinesComponent {
     } else if (this.selectedMachine != null) {
       this.pristine = this.config.machines.some(m => isEqual(m, this.selectedMachine))
     }
+  }
+
+  public remove(): void {
+    let prom: Promise<unknown> | undefined = undefined;
+    if (this.selectedEmployee != null) {
+      prom = this._db.del(this.selectedEmployee, 'personal');
+    } else if (this.selectedRoom != null) {
+      prom = this._db.del(this.selectedRoom, 'rooms');
+    } else if (this.selectedMachine != null) {
+      prom = this._db.del(this.selectedMachine, 'machines');
+    }
+    prom?.then(() => {
+      this.unselect();
+      this.sidebarOpened = false;
+    })
+  }
+
+  public unselect(): void {
+    this.selectedEmployee = undefined;
+    this.selectedRoom = undefined;
+    this.selectedMachine = undefined;
   }
 
 

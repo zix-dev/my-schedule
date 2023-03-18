@@ -1,3 +1,4 @@
+import { CalendarModule } from './modules/calendar/calendar.module';
 import { ConfigurationModule } from './modules/configuration/configuration.module';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -18,6 +19,7 @@ import { FormsModule } from '@angular/forms';
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideFirestore(() => getFirestore()),
     ConfigurationModule,
+    CalendarModule
   ],
   providers: [],
   bootstrap: [AppComponent]

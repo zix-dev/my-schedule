@@ -11,11 +11,8 @@
           *ngFor="let employee of config.personal"
           (click)="selectEmployee(employee)"
         >
-          <span>{{ employee.name }}</span
-          ><span
-            class="color-dot"
-            [style.background-color]="employee.color"
-          ></span>
+          <i class="fa-solid fa-user" [style.color]="employee.color"></i>
+          <span>{{ employee.name }}</span>
         </div>
         <div class="group-name">
           Habitaciones <span class="add" (click)="addRoom()">Añadir...</span>
@@ -26,6 +23,7 @@
           *ngFor="let room of config.rooms"
           (click)="selectRoom(room)"
         >
+          <i class="fa-solid fa-house-medical"></i>
           <span>{{ room.name }}</span>
         </div>
         <div class="group-name">
@@ -37,12 +35,13 @@
           *ngFor="let machine of config.machines"
           (click)="selectMachine(machine)"
         >
+          <i class="fa-solid fa-computer"></i>
           <span>{{ machine.name }}</span>
         </div>
       </div>
     </scroll>
   </div>
-  <sidebar [opened]="sidebarOpened">
+  <sidebar [opened]="sidebarOpened" (afterClose)="unselect()">
     <div class="sidebar-content">
       <div class="flex-col grow gap-15">
         <ng-container *ngIf="selectedEmployee != null; else room">
@@ -62,7 +61,13 @@
           </div>
         </ng-container>
       </div>
-      <div class="flex gap-5 justify-end">
+      <div class="flex gap-5 justify-end align-center">
+        <btn
+          class="delete-button"
+          icon="fa-solid fa-trash"
+          type="warn"
+          (onClick)="remove()"
+        ></btn>
         <btn
           [disabled]="pristine"
           type="primary"

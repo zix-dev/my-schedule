@@ -9,11 +9,15 @@ export class BtnComponent {
   /**
    * Text in the button
    */
-  @Input() public text: string = '';
+  @Input() public text?: string;
+  /**
+   * Text in the button
+   */
+  @Input() public icon?: string;
   /**
    * Sets the color of the button
    */
-  @Input() public type: 'primary' | 'normal' | 'warning' = 'normal';
+  @Input() public type: 'primary' | 'normal' | 'warn' = 'normal';
   /**
    * Makes the button non clickable
    */
