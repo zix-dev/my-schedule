@@ -19,5 +19,69 @@
       <time-box [(value)]="data.end"></time-box>
     </div>
   </div>
-  <multiselection></multiselection>
+  <div *ngIf="config.personal != null">
+    <div class="label">Personas:</div>
+    <multiselection
+      [options]="config.personal"
+      [(selection)]="selectedEmployees"
+      [customChip]="employeeChip"
+      [customOption]="option"
+    ></multiselection>
+  </div>
+  <div *ngIf="config.rooms != null">
+    <div class="label">Habitaciones:</div>
+    <multiselection
+      [options]="config.rooms"
+      [(selection)]="selectedRooms"
+      [customChip]="roomChip"
+      [customOption]="option"
+    ></multiselection>
+  </div>
+  <div *ngIf="config.machines != null">
+    <div class="label">Máquinas:</div>
+    <multiselection
+      [options]="config.machines"
+      [(selection)]="selectedMachines"
+      [customChip]="machineChip"
+      [customOption]="option"
+    ></multiselection>
+  </div>
 </div>
+
+<ng-template #option let-option="option">{{ option.name }}</ng-template>
+
+<ng-template #employeeChip let-chip="chip">
+  <div
+    class="flex align-center gap-5 chip"
+    [style.background-color]="chip.color"
+  >
+    <i class="fa-solid fa-user"></i>
+    <span>{{ chip.name }}</span>
+    <i
+      class="x fa-solid fa-circle-xmark"
+      (click)="unselectEmployee(chip); $event.stopPropagation()"
+    ></i>
+  </div>
+</ng-template>
+
+<ng-template #roomChip let-chip="chip">
+  <div class="flex align-center gap-5 chip">
+    <i class="fa-solid fa-house-medical"></i>
+    <span>{{ chip.name }}</span>
+    <i
+      class="x fa-solid fa-circle-xmark"
+      (click)="unselectRoom(chip); $event.stopPropagation()"
+    ></i>
+  </div>
+</ng-template>
+
+<ng-template #machineChip let-chip="chip">
+  <div class="flex align-center gap-5 chip">
+    <i class="fa-solid fa-computer"></i>
+    <span>{{ chip.name }}</span>
+    <i
+      class="x fa-solid fa-circle-xmark"
+      (click)="unselectMachine(chip); $event.stopPropagation()"
+    ></i>
+  </div>
+</ng-template>

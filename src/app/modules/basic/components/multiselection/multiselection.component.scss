@@ -1,4 +1,11 @@
-:host {
-  width: 500px;
-  height: 500px;
+mat-form-field {
+  width: 100%;
+}
+
+.chip-list {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  row-gap: 5px;
+  column-gap: 10px;
 }

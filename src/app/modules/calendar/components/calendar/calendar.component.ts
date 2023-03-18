@@ -96,7 +96,7 @@ export class CalendarComponent implements OnDestroy {
    * Opens event editor
    */
   public openEventEditor(res: Reservation, update: boolean = false): void {
-    this._popup.open(AppointmentEditionComponent, { data: res, width: '400px' }).beforeClosed().subscribe(() => {
+    this._popup.open(AppointmentEditionComponent, { data: res, width: '600px' }).beforeClosed().subscribe(() => {
       if (update) this._db.update(res, 'reservations');
       else this._db.put<Reservation>(res, 'reservations')
     })

@@ -30,3 +30,30 @@ hr {
     margin-bottom: 5px;
   }
 }
+
+.chip {
+  padding: 5px 10px;
+  border-radius: 50px;
+  overflow: hidden;
+  transition: width 200ms ease;
+  background-color: #cccccc;
+
+  .x {
+    margin-left: -5px;
+    width: 0;
+    opacity: 0;
+    transition: opacity ease 200ms, width ease 200ms, margin-left ease 200ms;
+    cursor: pointer;
+  }
+
+  &:hover .x {
+    margin-left: 0;
+    width: min-content;
+    opacity: 0.5;
+  }
+
+  .x:hover {
+    opacity: 1;
+  }
+
+}

@@ -1,8 +1,36 @@
-<mat-form-field appearance="outline">
-  <mat-select [(ngModel)]="selection" multiple>
-    <mat-select-trigger> Helloo </mat-select-trigger>
-    <mat-option *ngFor="let topping of toppingList" [value]="topping">{{
-      topping
-    }}</mat-option>
+<mat-form-field appearance="outline" floatLabel="never">
+  <mat-select
+    [(ngModel)]="selection"
+    (selectionChange)="selectionChange.emit(selection)"
+    multiple
+  >
+    <mat-select-trigger>
+      <div class="chip-list">
+        <ng-container
+          *ngFor="let chip of selection"
+          [ngTemplateOutlet]="customChip ?? defaultChip"
+          [ngTemplateOutletContext]="{ chip: chip }"
+        >
+        </ng-container>
+      </div>
+    </mat-select-trigger>
+    <mat-option *ngFor="let option of options" [value]="option">
+      <ng-container
+        [ngTemplateOutlet]="customOption ?? defaultOption"
+        [ngTemplateOutletContext]="{ option: option }"
+      >
+      </ng-container>
+    </mat-option>
   </mat-select>
 </mat-form-field>
+
+<ng-template #defaultOption let-option="option">{{ option }}</ng-template>
+
+<ng-template #defaultChip let-chip="chip">
+  <div>
+    {{ chip }}
+    <button matChipRemove>
+      <i class="fa-solid fa-circle-xmark"></i>
+    </button>
+  </div>
+</ng-template>
