@@ -1,56 +1,71 @@
 <div class="header">
   <div class="title">Reserva</div>
-  <div class="subtitle">Dia: {{ data.day | timestamp }}</div>
+  <div class="subtitle">Dia: {{ reservation.day | timestamp }}</div>
 </div>
 <hr />
-
-<div class="body flex-col gap-10">
-  <div>
-    <div class="label">Titulo:</div>
-    <text-box placeholder="agrega un título" [(value)]="data.title"></text-box>
-  </div>
-  <div class="times flex align-center wrap">
+<scroll>
+  <div class="body flex-col gap-10">
     <div>
-      <div class="label">Inicio:</div>
-      <time-box [(value)]="data.start"></time-box>
+      <div class="label">Titulo:</div>
+      <text-box
+        placeholder="agrega un título"
+        [(value)]="reservation.title"
+      ></text-box>
     </div>
-    <div>
-      <div class="label">Fin:</div>
-      <time-box [(value)]="data.end"></time-box>
+    <div class="times flex align-center wrap">
+      <div>
+        <div class="label">Inicio:</div>
+        <time-box [(value)]="reservation.start"></time-box>
+      </div>
+      <div>
+        <div class="label">Fin:</div>
+        <time-box [(value)]="reservation.end"></time-box>
+      </div>
+    </div>
+    <div *ngIf="config.personal != null">
+      <div class="label">Personas:</div>
+      <multiselection
+        [options]="config.personal"
+        [(selection)]="selectedEmployees"
+        [customChip]="employeeChip"
+        [customOption]="option"
+        (selectionChange)="updateSelection()"
+      ></multiselection>
+    </div>
+    <div *ngIf="config.rooms != null">
+      <div class="label">Habitaciones:</div>
+      <multiselection
+        [options]="config.rooms"
+        [(selection)]="selectedRooms"
+        [customChip]="roomChip"
+        [customOption]="option"
+        (selectionChange)="updateSelection()"
+      ></multiselection>
+    </div>
+    <div *ngIf="config.machines != null">
+      <div class="label">Máquinas:</div>
+      <multiselection
+        [options]="config.machines"
+        [(selection)]="selectedMachines"
+        [customChip]="machineChip"
+        [customOption]="option"
+        (selectionChange)="updateSelection()"
+      ></multiselection>
     </div>
   </div>
-  <div *ngIf="config.personal != null">
-    <div class="label">Personas:</div>
-    <multiselection
-      [options]="config.personal"
-      [(selection)]="selectedEmployees"
-      [customChip]="employeeChip"
-      [customOption]="option"
-      (selectionChange)="updateSelection()"
-    ></multiselection>
-  </div>
-  <div *ngIf="config.rooms != null">
-    <div class="label">Habitaciones:</div>
-    <multiselection
-      [options]="config.rooms"
-      [(selection)]="selectedRooms"
-      [customChip]="roomChip"
-      [customOption]="option"
-      (selectionChange)="updateSelection()"
-    ></multiselection>
-  </div>
-  <div *ngIf="config.machines != null">
-    <div class="label">Máquinas:</div>
-    <multiselection
-      [options]="config.machines"
-      [(selection)]="selectedMachines"
-      [customChip]="machineChip"
-      [customOption]="option"
-      (selectionChange)="updateSelection()"
-    ></multiselection>
-  </div>
+</scroll>
+<hr />
+<div class="footer flex gap-5 justify-end align-center">
+  <btn
+    *ngIf="!data.creation"
+    class="delete-button"
+    icon="fa-solid fa-trash"
+    type="warn"
+    (onClick)="dialogRef.close(false)"
+  ></btn>
+  <btn type="primary" text="Guardar" (onClick)="save()"></btn>
+  <btn text="Cancelar" (onClick)="dialogRef.close()"></btn>
 </div>
-
 <ng-template #option let-option="option">{{ option.name }}</ng-template>
 
 <ng-template #employeeChip let-chip="chip">

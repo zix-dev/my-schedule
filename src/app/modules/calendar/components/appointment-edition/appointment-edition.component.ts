@@ -11,19 +11,20 @@ import { cloneDeep } from 'lodash';
   styleUrls: ['./appointment-edition.component.scss']
 })
 export class AppointmentEditionComponent {
-  public editing: boolean = false;
   public selectedEmployees: Employee[] = [];
   public selectedRooms: Room[] = [];
   public selectedMachines: Machine[] = [];
+  public reservation!: Reservation;
+  public pristine: boolean = false;
   public constructor(
     public config: ConfigService,
     public dialogRef: MatDialogRef<AppointmentEditionComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: Reservation,
+    @Inject(MAT_DIALOG_DATA) public data: { reservation: Reservation; creation: boolean },
   ) {
-    this.editing = data.title.trim() != '';
-    this.selectedEmployees = this.config.personal.filter(e => data.personalIds?.includes(e.id!))
-    this.selectedRooms = this.config.rooms.filter(r => data.roomsIds?.includes(r.id!))
-    this.selectedMachines = this.config.machines.filter(m => data.machinesIds?.includes(m.id!))
+    this.reservation = cloneDeep(data.reservation);
+    this.selectedEmployees = this.config.personal.filter(e => this.reservation.personalIds?.includes(e.id!))
+    this.selectedRooms = this.config.rooms.filter(r => this.reservation.roomsIds?.includes(r.id!))
+    this.selectedMachines = this.config.machines.filter(m => this.reservation.machinesIds?.includes(m.id!))
   }
 
   public unselectEmployee(employee: Employee): void {
@@ -45,8 +46,14 @@ export class AppointmentEditionComponent {
   }
 
   public updateSelection(): void {
-    this.data.personalIds = this.selectedEmployees.map(e => e.id!);
-    this.data.roomsIds = this.selectedRooms.map(r => r.id!);
-    this.data.machinesIds = this.selectedMachines.map(m => m.id!);
+    this.reservation.personalIds = this.selectedEmployees.map(e => e.id!);
+    this.reservation.roomsIds = this.selectedRooms.map(r => r.id!);
+    this.reservation.machinesIds = this.selectedMachines.map(m => m.id!);
+    this.reservation.color = this.selectedEmployees.length > 0 ? this.selectedEmployees[0].color : '#cccccc'
+  }
+
+  public save(): void {
+    this.data.reservation = this.reservation;
+    this.dialogRef.close(true)
   }
 }

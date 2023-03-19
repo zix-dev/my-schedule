@@ -8,6 +8,7 @@ export type Reservation = {
   start: Time;
   end: Time;
   day: Timestamp;
+  color: string;
   personalIds?: string[];
   roomsIds?: string[];
   machinesIds?: string[];

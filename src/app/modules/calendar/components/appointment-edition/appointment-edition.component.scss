@@ -1,3 +1,9 @@
+:host {
+  max-height: inherit;
+  display: flex;
+  flex-direction: column;
+}
+
 .header {
   padding: 20px 20px 0;
 
@@ -56,4 +62,12 @@ hr {
     opacity: 1;
   }
 
+}
+
+.footer {
+  padding: 0 10px 10px 10px;
+
+  .delete-button {
+    margin-right: auto;
+  }
 }

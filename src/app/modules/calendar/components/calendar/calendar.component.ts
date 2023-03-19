@@ -44,8 +44,8 @@ export class CalendarComponent implements OnDestroy {
     events: this.events,
     select: (e) => this.select(e),
     eventClick: (e) => this.editEvent(e.event),
-    eventDrop: (e) => this.updateReservation(this.getReservation(e.event.id)),
-    eventResize: (e) => this.updateReservation(this.getReservation(e.event.id)),
+    eventDrop: (e) => this.updateReservationFromEvent(e.event as CalendarEvent),
+    eventResize: (e) => this.updateReservationFromEvent(e.event as CalendarEvent),
     editable: true,
     selectable: true,
     selectMirror: true,
@@ -65,7 +65,7 @@ export class CalendarComponent implements OnDestroy {
         const day = res.day.toDate()!;
         return {
           title: res.title,
-          color: '#55b995',
+          color: res.color,
           start: timeToDate(res.start, day),
           end: timeToDate(res.end, day),
           id: res.id,
@@ -88,7 +88,7 @@ export class CalendarComponent implements OnDestroy {
    */
   public addEvent(e: DateSelectArg): void {
     if (e.end.getDate() != e.start.getDate()) return;
-    const data: Reservation = { title: '', day: Timestamp.fromDate(e.start!), start: dateToTime(e.start), end: dateToTime(e.end) }
+    const data: Reservation = { title: '', day: Timestamp.fromDate(e.start!), start: dateToTime(e.start), end: dateToTime(e.end), color: '#cccccc' }
     this.openEventEditor(data);
   }
   /**
@@ -101,13 +101,16 @@ export class CalendarComponent implements OnDestroy {
    * Opens event editor
    */
   public openEventEditor(res: Reservation, update: boolean = false): void {
-    console.log(res);
-
-    this._popup.open(AppointmentEditionComponent, { data: res, width: '600px' }).beforeClosed().subscribe(() => {
-      if (update) this._db.update<Reservation>(res, 'reservations');
-      else this._db.put<Reservation>(res, 'reservations');
-      console.log(res);
-
+    const data = { reservation: res, creation: !update };
+    this._popup.open(AppointmentEditionComponent, { data: data, width: '600px' }).beforeClosed().subscribe((response) => {
+      if (response == null) return;
+      const save = response as boolean;
+      if (save == true) {
+        if (data.reservation.title == '') data.reservation.title = 'sin nombre'
+        if (update) this._db.update<Reservation>(data.reservation, 'reservations');
+        else this._db.put<Reservation>(data.reservation, 'reservations');
+      }
+      else if (update) this._db.del(data.reservation, 'reservations')
     })
   }
   /**
@@ -123,6 +126,24 @@ export class CalendarComponent implements OnDestroy {
     this._subs.forEach(sub => sub.unsubscribe())
   }
 
+  public updateReservationFromEvent(e: CalendarEvent): void {
+    const res = { ...this.getReservation(e.id!) }
+    const newRes = this.createNewResevation(e);
+    res.day = newRes.day;
+    res.start = newRes.start;
+    res.end = newRes.end;
+    this.updateReservation(res)
+  }
+
+  public createNewResevation(e: CalendarEvent): Reservation {
+    if (e.end == null) {
+      e.end = new Date(e.start);
+      e.end.setDate(e.end.getDate() + 1)
+    }
+    return { title: e.title ?? '', day: Timestamp.fromDate(e.start!), start: dateToTime(e.start), end: dateToTime(e.end), color: '#cccccc', }
+
+  }
+
   public getReservation(id: string): Reservation {
     return this.reservations.find(r => r.id == id)!;
   }
@@ -132,19 +153,4 @@ export type FullCalendar = Omit<FullCalendarComponent, 'calendar'> & { calendar:
 export type Calendar = { currentData: CalendarCurrentData }
 export type CalendarCurrentData = { currentViewType: CalendarViewTypes; currentDate: Date };
 export type CalendarViewTypes = 'dayGridMonth' | 'timeGridWeek' | 'timeGridDay';
-export type CalendarEvent = { id?: string, title: string, start: Date, end?: Date, color?: string; personalIds?: string[]; roomsIds?: string[]; machinesIds?: string[] };
-
-/*export function eventToReservation(e: CalendarEvent): Reservation {
-  const end = dateToTime(e.end ?? e.start);
-  if (e.end == null) end.hours++;
-  return {
-    id: e.id,
-    day: Timestamp.fromDate(e.start),
-    start: dateToTime(e.start),
-    end: end,
-    title: e.title ?? 'sin título',
-    personalIds: e.personalIds ?? [],
-    roomsIds: e.roomsIds ?? [],
-    machinesIds: e.machinesIds ?? [],
-  };
-}*/
+export type CalendarEvent = { id?: string, title?: string, start: Date, end?: Date, color?: string; personalIds?: string[]; roomsIds?: string[]; machinesIds?: string[] };
