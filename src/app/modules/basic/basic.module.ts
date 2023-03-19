@@ -12,7 +12,8 @@ import * as Components from './components/index'
     Components.BtnComponent,
     Components.AutocompleteComponent,
     Components.ColorBoxComponent,
-    Components.MultiselectionComponent
+    Components.MultiselectionComponent,
+    Components.DialogComponent
   ],
   imports: [
     CommonModule,

@@ -91,6 +91,7 @@ export class CalendarComponent implements OnDestroy {
   public openEventEditor(res: Reservation, update: boolean = false): void {
     const data = { reservation: res, creation: !update };
     this._popup.open(AppointmentEditionComponent, { data: data, width: '600px' }).beforeClosed().subscribe((response) => {
+      this.calendar.calendar.unselect()
       if (response == null) return;
       const save = response as boolean;
       if (save == true) {

@@ -7,6 +7,6 @@ import { ConfigService } from './modules/configuration/services/config.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  public x: boolean = false;
+  public x: boolean = true;
   constructor(public config: ConfigService) { }
 }

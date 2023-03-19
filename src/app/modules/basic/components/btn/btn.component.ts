@@ -17,7 +17,7 @@ export class BtnComponent {
   /**
    * Sets the color of the button
    */
-  @Input() public type: 'primary' | 'normal' | 'warn' = 'normal';
+  @Input() public type: ButtonType = 'normal';
   /**
    * Makes the button non clickable
    */
@@ -35,3 +35,5 @@ export class BtnComponent {
    */
   @Output() public readonly onRightClick = new EventEmitter<void>()
 }
+
+export type ButtonType = 'primary' | 'normal' | 'warn';

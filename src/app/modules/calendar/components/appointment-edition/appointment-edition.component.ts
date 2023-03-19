@@ -1,3 +1,4 @@
+import { PopupService } from './../../../basic/services/popup.service';
 import { Employee, Room, Machine } from './../../../configuration/models/configurations.models';
 import { ConfigService } from './../../../configuration/services/config.service';
 import { Reservation } from '../../../common/models/reservation.models';
@@ -20,6 +21,7 @@ export class AppointmentEditionComponent {
     public config: ConfigService,
     public dialogRef: MatDialogRef<AppointmentEditionComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { reservation: Reservation; creation: boolean },
+    private _popup: PopupService
   ) {
     this.reservation = cloneDeep(data.reservation);
     this.selectedEmployees = this.config.personal.filter(e => this.reservation.personalIds?.includes(e.id!))
@@ -55,5 +57,15 @@ export class AppointmentEditionComponent {
   public save(): void {
     this.data.reservation = this.reservation;
     this.dialogRef.close(true)
+  }
+
+  public remove(): void {
+    this._popup.openDialog({
+      title: 'Eliminar Reserva', text: 'Estás seguro de que quieres eliminar esta reserva?', buttons: [
+        { text: 'Cancelar' }, { text: 'Eliminar', icon: 'fa-solid fa-trash', type: 'warn' }
+      ]
+    }).afterClosed().subscribe((result) => {
+      if (result == 1) this.dialogRef.close(false)
+    })
   }
 }

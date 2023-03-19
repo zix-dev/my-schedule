@@ -7,8 +7,10 @@
   (dblclick)="onDblClick.emit()"
   (auxclick)="onRightClick.emit()"
 >
-  <i *ngIf="icon != null" [class]="icon"></i>
-  <span *ngIf="text != null">{{ text }}</span>
+  <div class="button-content">
+    <i *ngIf="icon != null" [class]="icon"></i>
+    <span *ngIf="text != null">{{ text }}</span>
+  </div>
 </button>
 
 <ng-template #iconBtn>

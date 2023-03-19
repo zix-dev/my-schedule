@@ -1,0 +1,14 @@
+<ng-container *ngIf="data.title != null">
+  <div class="title">{{ data.title }}</div>
+  <hr />
+</ng-container>
+<div class="body">{{ data.text }}</div>
+<div class="footer">
+  <btn
+    *ngFor="let b of data.buttons; let i = index"
+    [text]="b.text"
+    [icon]="b.icon"
+    [type]="b.type ?? 'normal'"
+    (onClick)="dialogRef.close(i)"
+  ></btn>
+</div>

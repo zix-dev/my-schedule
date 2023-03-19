@@ -2,7 +2,7 @@
   <div class="title">Reserva</div>
   <div class="subtitle">Dia: {{ reservation.day | timestamp }}</div>
 </div>
-<hr />
+<hr class="top" />
 <scroll>
   <div class="body flex-col gap-10">
     <div>
@@ -61,7 +61,7 @@
     class="delete-button"
     icon="fa-solid fa-trash"
     type="warn"
-    (onClick)="dialogRef.close(false)"
+    (onClick)="remove()"
   ></btn>
   <btn type="primary" text="Guardar" (onClick)="save()"></btn>
   <btn text="Cancelar" (onClick)="dialogRef.close()"></btn>
