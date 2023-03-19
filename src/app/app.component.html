@@ -1,1 +1,5 @@
-<calendar></calendar>
+<btn text="switch" (onClick)="x = !x"></btn>
+<ng-container *ngIf="config.personal">
+  <calendar *ngIf="x"></calendar>
+  <general-configuration *ngIf="!x"></general-configuration>
+</ng-container>

@@ -1,17 +1,18 @@
+import { isEqual } from 'lodash';
 import { Subscription } from 'rxjs';
 import { DatabaseService } from './../../../../database.service';
 import { Reservation } from './../../../common/models/reservation.models';
 import { AppointmentEditionComponent } from './../appointment-edition/appointment-edition.component';
 import { PopupService } from './../../../basic/services/popup.service';
 import { Component, ViewChild, OnDestroy } from '@angular/core';
-import { CalendarOptions, DateSelectArg } from '@fullcalendar/core';
+import { Calendar, CalendarOptions, DateSelectArg } from '@fullcalendar/core';
 
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import listPlugin from '@fullcalendar/list'
 import { FullCalendarComponent } from '@fullcalendar/angular/full-calendar.component';
-import { dateToTime, timeToDate } from 'src/app/modules/common/utils/date-and-time.utils';
+import { dateToTime, isLater, timeToDate } from 'src/app/modules/common/utils/date-and-time.utils';
 import { EventImpl } from '@fullcalendar/core/internal';
 import { Timestamp } from 'firebase/firestore';
 @Component({
@@ -37,7 +38,6 @@ export class CalendarComponent implements OnDestroy {
     initialDate: new Date(),
     headerToolbar: {
       left: 'prev,next today',
-      center: 'title',
       right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
     },
     initialView: 'dayGridMonth',
@@ -46,10 +46,11 @@ export class CalendarComponent implements OnDestroy {
     eventClick: (e) => this.editEvent(e.event),
     eventDrop: (e) => this.updateReservationFromEvent(e.event as CalendarEvent),
     eventResize: (e) => this.updateReservationFromEvent(e.event as CalendarEvent),
+    dateClick: (e) => this.calendar.calendar.changeView('timeGridDay', e.date),
     editable: true,
     selectable: true,
     selectMirror: true,
-    dayMaxEvents: true
+    allDaySlot: false,
   };
   /**
    * Subscription array
@@ -61,27 +62,14 @@ export class CalendarComponent implements OnDestroy {
   public constructor(private _popup: PopupService, private _db: DatabaseService) {
     this._db.get<Reservation>('reservations').subscribe(reservations => {
       this.reservations = reservations;
-      this.events = reservations.map((res) => {
-        const day = res.day.toDate()!;
-        return {
-          title: res.title,
-          color: res.color,
-          start: timeToDate(res.start, day),
-          end: timeToDate(res.end, day),
-          id: res.id,
-          personalIds: res.personalIds,
-          roomsIds: res.roomsIds,
-          machinesIds: res.machinesIds,
-        }
-      })
-      this.options = { ...this.options, ...{ events: this.events } };
+      this.mapReservations();
     })
   }
   /**
    * Called when there have been a selection in the calendar
    */
   public select(e: DateSelectArg): void {
-    if (this.calendar.calendar.currentData.currentViewType != 'dayGridMonth') this.addEvent(e)
+    if (this.calendar.calendar.view.type != 'dayGridMonth') this.addEvent(e);
   }
   /**
    * Adds a new event to the calendar
@@ -129,6 +117,10 @@ export class CalendarComponent implements OnDestroy {
   public updateReservationFromEvent(e: CalendarEvent): void {
     const res = { ...this.getReservation(e.id!) }
     const newRes = this.createNewResevation(e);
+    if (e.allDay || isLater(newRes.start, newRes.end)) {
+      this.mapReservations();
+      return;
+    }
     res.day = newRes.day;
     res.start = newRes.start;
     res.end = newRes.end;
@@ -136,12 +128,30 @@ export class CalendarComponent implements OnDestroy {
   }
 
   public createNewResevation(e: CalendarEvent): Reservation {
-    if (e.end == null) {
-      e.end = new Date(e.start);
-      e.end.setDate(e.end.getDate() + 1)
+    let end = e.end;
+    if (end == null) {
+      end = new Date(e.start);
+      end.setDate(end.getDate() + 1)
     }
-    return { title: e.title ?? '', day: Timestamp.fromDate(e.start!), start: dateToTime(e.start), end: dateToTime(e.end), color: '#cccccc', }
+    return { title: e.title ?? '', day: Timestamp.fromDate(e.start!), start: dateToTime(e.start), end: dateToTime(end), color: '#cccccc', }
 
+  }
+
+  public mapReservations(): void {
+    this.events = this.reservations.map((res) => {
+      const day = res.day.toDate()!;
+      return {
+        title: res.title,
+        color: res.color,
+        start: timeToDate(res.start, day),
+        end: timeToDate(res.end, day),
+        id: res.id,
+        personalIds: res.personalIds,
+        roomsIds: res.roomsIds,
+        machinesIds: res.machinesIds,
+      }
+    });
+    this.options = { ...this.options, ...{ events: this.events } };
   }
 
   public getReservation(id: string): Reservation {
@@ -150,7 +160,15 @@ export class CalendarComponent implements OnDestroy {
 }
 
 export type FullCalendar = Omit<FullCalendarComponent, 'calendar'> & { calendar: Calendar };
-export type Calendar = { currentData: CalendarCurrentData }
-export type CalendarCurrentData = { currentViewType: CalendarViewTypes; currentDate: Date };
-export type CalendarViewTypes = 'dayGridMonth' | 'timeGridWeek' | 'timeGridDay';
-export type CalendarEvent = { id?: string, title?: string, start: Date, end?: Date, color?: string; personalIds?: string[]; roomsIds?: string[]; machinesIds?: string[] };
+export type CalendarEvent =
+  {
+    id?: string,
+    title?: string,
+    start: Date,
+    end?: Date,
+    color?: string;
+    personalIds?: string[];
+    roomsIds?: string[];
+    machinesIds?: string[];
+    allDay?: boolean
+  };

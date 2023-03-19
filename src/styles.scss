@@ -32,6 +32,7 @@ $my-schedule-theme: mat.define-light-theme((color: (primary: $my-schedule-primar
 
 /* You can add global styles to this file, and also import other style files */
 @import './styles/utility-classes.scss';
+@import './styles/calendar.custom.scss';
 
 html,
 body {

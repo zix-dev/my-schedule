@@ -27,3 +27,8 @@ export function timeToDate(time: Time, date: Date): Date {
 export function dateToTime(date: Date): Time {
   return { hours: date.getHours(), minutes: date.getMinutes() }
 }
+
+export function isLater(t1: Time, t2: Time): boolean {
+  if (t1.hours == t2.hours) return t1.minutes > t2.minutes;
+  return t1.hours > t2.hours
+}
