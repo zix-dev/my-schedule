@@ -28,6 +28,7 @@ export class CalendarComponent implements OnDestroy {
    * Array of events
    */
   public events: CalendarEvent[] = [];
+  public reservations: Reservation[] = [];
   /**
    * Calendar options
    */
@@ -43,8 +44,8 @@ export class CalendarComponent implements OnDestroy {
     events: this.events,
     select: (e) => this.select(e),
     eventClick: (e) => this.editEvent(e.event),
-    eventDrop: (e) => this.updateReservation(eventToReservation(e.event as CalendarEvent)),
-    eventResize: (e) => this.updateReservation(eventToReservation(e.event as CalendarEvent)),
+    eventDrop: (e) => this.updateReservation(this.getReservation(e.event.id)),
+    eventResize: (e) => this.updateReservation(this.getReservation(e.event.id)),
     editable: true,
     selectable: true,
     selectMirror: true,
@@ -59,6 +60,7 @@ export class CalendarComponent implements OnDestroy {
    */
   public constructor(private _popup: PopupService, private _db: DatabaseService) {
     this._db.get<Reservation>('reservations').subscribe(reservations => {
+      this.reservations = reservations;
       this.events = reservations.map((res) => {
         const day = res.day.toDate()!;
         return {
@@ -66,7 +68,10 @@ export class CalendarComponent implements OnDestroy {
           color: '#55b995',
           start: timeToDate(res.start, day),
           end: timeToDate(res.end, day),
-          id: res.id
+          id: res.id,
+          personalIds: res.personalIds,
+          roomsIds: res.roomsIds,
+          machinesIds: res.machinesIds,
         }
       })
       this.options = { ...this.options, ...{ events: this.events } };
@@ -90,15 +95,19 @@ export class CalendarComponent implements OnDestroy {
    * Edits an event
    */
   public editEvent(e: EventImpl): void {
-    this.openEventEditor(eventToReservation(e as CalendarEvent), true);
+    this.openEventEditor(this.getReservation(e.id), true);
   }
   /**
    * Opens event editor
    */
   public openEventEditor(res: Reservation, update: boolean = false): void {
+    console.log(res);
+
     this._popup.open(AppointmentEditionComponent, { data: res, width: '600px' }).beforeClosed().subscribe(() => {
-      if (update) this._db.update(res, 'reservations');
-      else this._db.put<Reservation>(res, 'reservations')
+      if (update) this._db.update<Reservation>(res, 'reservations');
+      else this._db.put<Reservation>(res, 'reservations');
+      console.log(res);
+
     })
   }
   /**
@@ -113,15 +122,19 @@ export class CalendarComponent implements OnDestroy {
   public ngOnDestroy(): void {
     this._subs.forEach(sub => sub.unsubscribe())
   }
+
+  public getReservation(id: string): Reservation {
+    return this.reservations.find(r => r.id == id)!;
+  }
 }
 
 export type FullCalendar = Omit<FullCalendarComponent, 'calendar'> & { calendar: Calendar };
 export type Calendar = { currentData: CalendarCurrentData }
 export type CalendarCurrentData = { currentViewType: CalendarViewTypes; currentDate: Date };
 export type CalendarViewTypes = 'dayGridMonth' | 'timeGridWeek' | 'timeGridDay';
-export type CalendarEvent = { id?: string, title: string, start: Date, end?: Date, color?: string };
+export type CalendarEvent = { id?: string, title: string, start: Date, end?: Date, color?: string; personalIds?: string[]; roomsIds?: string[]; machinesIds?: string[] };
 
-export function eventToReservation(e: CalendarEvent): Reservation {
+/*export function eventToReservation(e: CalendarEvent): Reservation {
   const end = dateToTime(e.end ?? e.start);
   if (e.end == null) end.hours++;
   return {
@@ -129,6 +142,9 @@ export function eventToReservation(e: CalendarEvent): Reservation {
     day: Timestamp.fromDate(e.start),
     start: dateToTime(e.start),
     end: end,
-    title: e.title ?? 'sin título'
+    title: e.title ?? 'sin título',
+    personalIds: e.personalIds ?? [],
+    roomsIds: e.roomsIds ?? [],
+    machinesIds: e.machinesIds ?? [],
   };
-}
+}*/

@@ -19,20 +19,34 @@ export class AppointmentEditionComponent {
     public config: ConfigService,
     public dialogRef: MatDialogRef<AppointmentEditionComponent>,
     @Inject(MAT_DIALOG_DATA) public data: Reservation,
-  ) { this.editing = data.title.trim() != '' }
+  ) {
+    this.editing = data.title.trim() != '';
+    this.selectedEmployees = this.config.personal.filter(e => data.personalIds?.includes(e.id!))
+    this.selectedRooms = this.config.rooms.filter(r => data.roomsIds?.includes(r.id!))
+    this.selectedMachines = this.config.machines.filter(m => data.machinesIds?.includes(m.id!))
+  }
 
   public unselectEmployee(employee: Employee): void {
     this.selectedEmployees.splice(this.selectedEmployees.findIndex(e => e.id == employee.id), 1);
     this.selectedEmployees = [...this.selectedEmployees]
+    this.updateSelection();
   }
 
   public unselectRoom(room: Room): void {
     this.selectedRooms.splice(this.selectedRooms.findIndex(e => e.id == room.id), 1);
-    this.selectedRooms = [...this.selectedRooms]
+    this.selectedRooms = [...this.selectedRooms];
+    this.updateSelection();
   }
 
   public unselectMachine(machine: Machine): void {
     this.selectedMachines.splice(this.selectedMachines.findIndex(e => e.id == machine.id), 1);
-    this.selectedMachines = [...this.selectedMachines]
+    this.selectedMachines = [...this.selectedMachines];
+    this.updateSelection();
+  }
+
+  public updateSelection(): void {
+    this.data.personalIds = this.selectedEmployees.map(e => e.id!);
+    this.data.roomsIds = this.selectedRooms.map(r => r.id!);
+    this.data.machinesIds = this.selectedMachines.map(m => m.id!);
   }
 }

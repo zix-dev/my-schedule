@@ -26,6 +26,7 @@
       [(selection)]="selectedEmployees"
       [customChip]="employeeChip"
       [customOption]="option"
+      (selectionChange)="updateSelection()"
     ></multiselection>
   </div>
   <div *ngIf="config.rooms != null">
@@ -35,6 +36,7 @@
       [(selection)]="selectedRooms"
       [customChip]="roomChip"
       [customOption]="option"
+      (selectionChange)="updateSelection()"
     ></multiselection>
   </div>
   <div *ngIf="config.machines != null">
@@ -44,6 +46,7 @@
       [(selection)]="selectedMachines"
       [customChip]="machineChip"
       [customOption]="option"
+      (selectionChange)="updateSelection()"
     ></multiselection>
   </div>
 </div>

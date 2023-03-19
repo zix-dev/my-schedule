@@ -8,7 +8,7 @@ export type Reservation = {
   start: Time;
   end: Time;
   day: Timestamp;
-  employeeId?: string;
-  roomId?: string;
-  machineId?: string;
+  personalIds?: string[];
+  roomsIds?: string[];
+  machinesIds?: string[];
 }
