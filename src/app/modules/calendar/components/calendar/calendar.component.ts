@@ -1,4 +1,3 @@
-import { isEqual } from 'lodash';
 import { Subscription } from 'rxjs';
 import { DatabaseService } from './../../../../database.service';
 import { Reservation } from './../../../common/models/reservation.models';
@@ -10,7 +9,6 @@ import { Calendar, CalendarOptions, DateSelectArg } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import timeGridPlugin from '@fullcalendar/timegrid';
-import listPlugin from '@fullcalendar/list'
 import { FullCalendarComponent } from '@fullcalendar/angular/full-calendar.component';
 import { dateToTime, isLater, timeToDate } from 'src/app/modules/common/utils/date-and-time.utils';
 import { EventImpl } from '@fullcalendar/core/internal';
@@ -24,33 +22,34 @@ export class CalendarComponent implements OnDestroy {
   /**
    * Calendar component ref
    */
-  @ViewChild('calendar') public calendar!: FullCalendar;
+  @ViewChild('calendar') public calendar!: FullCalendarComponent;
   /**
    * Array of events
    */
   public events: CalendarEvent[] = [];
+  /**
+   * Array of reservations
+   */
   public reservations: Reservation[] = [];
   /**
    * Calendar options
    */
   public options: CalendarOptions = {
-    plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin, listPlugin],
+    plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
     initialDate: new Date(),
-    headerToolbar: {
-      left: 'prev,next today',
-      right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
-    },
+    headerToolbar: false,
     initialView: 'dayGridMonth',
     events: this.events,
     select: (e) => this.select(e),
     eventClick: (e) => this.editEvent(e.event),
     eventDrop: (e) => this.updateReservationFromEvent(e.event as CalendarEvent),
     eventResize: (e) => this.updateReservationFromEvent(e.event as CalendarEvent),
-    dateClick: (e) => this.calendar.calendar.changeView('timeGridDay', e.date),
+    dateClick: (e) => this.calendar.getApi().changeView('timeGridDay', e.date),
     editable: true,
     selectable: true,
     selectMirror: true,
     allDaySlot: false,
+    dayMaxEvents: true,
   };
   /**
    * Subscription array
@@ -69,7 +68,7 @@ export class CalendarComponent implements OnDestroy {
    * Called when there have been a selection in the calendar
    */
   public select(e: DateSelectArg): void {
-    if (this.calendar.calendar.view.type != 'dayGridMonth') this.addEvent(e);
+    if (this.calendar.getApi().view.type != 'dayGridMonth') this.addEvent(e);
   }
   /**
    * Adds a new event to the calendar
@@ -91,7 +90,7 @@ export class CalendarComponent implements OnDestroy {
   public openEventEditor(res: Reservation, update: boolean = false): void {
     const data = { reservation: res, creation: !update };
     this._popup.open(AppointmentEditionComponent, { data: data, width: '600px' }).beforeClosed().subscribe((response) => {
-      this.calendar.calendar.unselect()
+      this.calendar.getApi().unselect()
       if (response == null) return;
       const save = response as boolean;
       if (save == true) {
@@ -160,7 +159,6 @@ export class CalendarComponent implements OnDestroy {
   }
 }
 
-export type FullCalendar = Omit<FullCalendarComponent, 'calendar'> & { calendar: Calendar };
 export type CalendarEvent =
   {
     id?: string,

@@ -1,4 +1,8 @@
-<btn text="switch" (onClick)="x = !x"></btn>
+<btn
+  text="switch"
+  (onClick)="x = !x"
+  style="background-color: gray; padding: 10px"
+></btn>
 <ng-container *ngIf="config.personal">
   <calendar *ngIf="x"></calendar>
   <general-configuration *ngIf="!x"></general-configuration>

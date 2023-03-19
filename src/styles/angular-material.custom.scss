@@ -45,3 +45,7 @@ mat-dialog-container.mat-dialog-container {
 .mat-form-field-appearance-outline div.mat-select-arrow-wrapper {
   transform: translateY(0);
 }
+
+.mat-flat-button {
+  min-width: 0 !important;
+}

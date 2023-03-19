@@ -1,5 +1,5 @@
 <button
-  *ngIf="text != null; else iconBtn"
+  *ngIf="!iconButton; else iconBtn"
   mat-flat-button
   [color]="type"
   [disabled]="disabled"
@@ -8,7 +8,7 @@
   (auxclick)="onRightClick.emit()"
 >
   <div class="button-content">
-    <i *ngIf="icon != null" [class]="icon"></i>
+    <span *ngIf="icon != null"><i [class]="icon"></i></span>
     <span *ngIf="text != null">{{ text }}</span>
   </div>
 </button>

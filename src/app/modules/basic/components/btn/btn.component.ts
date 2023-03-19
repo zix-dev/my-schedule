@@ -23,6 +23,10 @@ export class BtnComponent {
    */
   @Input() public disabled: boolean = false;
   /**
+   * To set the styling to icon
+   */
+  @Input() public iconButton: boolean = false;
+  /**
    * Click event
    */
   @Output() public readonly onClick = new EventEmitter<void>()
