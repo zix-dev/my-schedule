@@ -1,3 +1,54 @@
 .fc-scrollgrid-section-header .fc-scroller {
   overflow: hidden hidden !important;
 }
+
+.fc-scroller {
+
+  &::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #adadad;
+    border-radius: 2px;
+  }
+
+}
+
+@supports (overflow: overlay) {
+  .fc-scroller {
+    overflow: hidden overlay !important;
+  }
+}
+
+.fc-scroller {
+  &::-webkit-scrollbar-track {
+    background: transparent;
+
+  }
+
+  &::-webkit-scrollbar {
+    width: 9px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border: 2px solid transparent;
+    background-clip: padding-box;
+    border-radius: 20px;
+    background-color: #adadadad;
+
+    &:hover {
+      background-color: #adadad;
+    }
+  }
+}
+
+full-calendar table,
+.fc-timegrid-body {
+  width: 100% !important;
+}

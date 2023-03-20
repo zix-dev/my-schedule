@@ -1,8 +1,6 @@
 :host {
   display: block;
   max-height: 100%;
-  padding-right: 2px;
-  margin-right: 2px;
 
   &.vertical {
     overflow-x: hidden;
@@ -22,20 +20,39 @@
     overflow: hidden;
   }
 
-  /* width */
-  &::-webkit-scrollbar {
-    width: 5px;
-  }
-
-  /* Track */
   &::-webkit-scrollbar-track {
     background: transparent;
 
   }
 
-  /* Handle */
+  &::-webkit-scrollbar {
+    width: 9px;
+  }
+
   &::-webkit-scrollbar-thumb {
-    background: #adadad;
-    border-radius: 2px;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+    border-radius: 20px;
+    background-color: #adadadad;
+
+    &:hover {
+      background-color: #adadad;
+    }
+  }
+}
+
+@supports (overflow: overlay) {
+  :host {
+    &.vertical {
+      overflow-y: overlay;
+    }
+
+    &.horizontal {
+      overflow-x: overlay;
+    }
+
+    &.both {
+      overflow: overlay;
+    }
   }
 }

@@ -9,6 +9,16 @@
   height: 100%;
 }
 
+scroll {
+  :first-child {
+    padding-top: 5px;
+  }
+
+  :last-child {
+    padding-bottom: 10px;
+  }
+}
+
 .group-name {
   font-weight: bold;
   border-bottom: 1px solid #bdbdbd;

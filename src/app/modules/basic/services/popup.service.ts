@@ -2,11 +2,29 @@ import { ButtonConfig, DialogComponent } from './../components/dialog/dialog.com
 import { ComponentType } from '@angular/cdk/portal';
 import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
+import { LoadingPanelComponent } from '../components';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PopupService {
+
+  private _loadingPanel?: MatDialogRef<LoadingPanelComponent>;
+
+  public get loading(): boolean {
+    return this._loadingPanel != null;
+  }
+
+  public set loading(b: boolean) {
+    if (b) this._loadingPanel = this.open(LoadingPanelComponent, {
+      disableClose: true,
+      width: '150px',
+      height: '80px',
+      position: { top: '10px' },
+      hasBackdrop: false
+    });
+    else this._loadingPanel?.close();
+  }
 
   constructor(private _dialog: MatDialog) { }
 

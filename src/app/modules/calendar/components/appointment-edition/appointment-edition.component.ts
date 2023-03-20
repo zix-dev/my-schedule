@@ -1,3 +1,4 @@
+import { DatabaseService } from './../../../../database.service';
 import { PopupService } from './../../../basic/services/popup.service';
 import { Employee, Room, Machine } from './../../../configuration/models/configurations.models';
 import { ConfigService } from './../../../configuration/services/config.service';
@@ -21,7 +22,8 @@ export class AppointmentEditionComponent {
     public config: ConfigService,
     public dialogRef: MatDialogRef<AppointmentEditionComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { reservation: Reservation; creation: boolean },
-    private _popup: PopupService
+    private _popup: PopupService,
+    private _db: DatabaseService
   ) {
     this.reservation = cloneDeep(data.reservation);
     this.selectedEmployees = this.config.personal.filter(e => this.reservation.personalIds?.includes(e.id!))
@@ -55,8 +57,9 @@ export class AppointmentEditionComponent {
   }
 
   public save(): void {
-    this.data.reservation = this.reservation;
-    this.dialogRef.close(true)
+    if (this.reservation.title.trim() == '') this.reservation.title = 'sin título';
+    if (this.data.creation) this._db.put(this.reservation, 'reservations').then(() => this.dialogRef.close());
+    else this._db.update(this.data.reservation, 'reservations').then(() => this.dialogRef.close());
   }
 
   public remove(): void {
@@ -65,7 +68,8 @@ export class AppointmentEditionComponent {
         { text: 'Cancelar' }, { text: 'Eliminar', icon: 'fa-solid fa-trash', type: 'warn' }
       ]
     }).afterClosed().subscribe((result) => {
-      if (result == 1) this.dialogRef.close(false)
+      if (result == 1) this._db.del(this.data.reservation, 'reservations');
+      this.dialogRef.close()
     })
   }
 }

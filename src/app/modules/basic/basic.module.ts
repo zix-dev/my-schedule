@@ -13,7 +13,8 @@ import * as Components from './components/index'
     Components.AutocompleteComponent,
     Components.ColorBoxComponent,
     Components.MultiselectionComponent,
-    Components.DialogComponent
+    Components.DialogComponent,
+    Components.LoadingPanelComponent
   ],
   imports: [
     CommonModule,
