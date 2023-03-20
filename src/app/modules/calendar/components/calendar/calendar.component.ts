@@ -4,15 +4,16 @@ import { Reservation } from './../../../common/models/reservation.models';
 import { AppointmentEditionComponent } from './../appointment-edition/appointment-edition.component';
 import { PopupService } from './../../../basic/services/popup.service';
 import { Component, ViewChild, OnDestroy } from '@angular/core';
-import { Calendar, CalendarOptions, DateSelectArg } from '@fullcalendar/core';
+import { CalendarOptions, DateSelectArg } from '@fullcalendar/core';
 
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import { FullCalendarComponent } from '@fullcalendar/angular/full-calendar.component';
-import { dateToTime, isLater, timeToDate } from 'src/app/modules/common/utils/date-and-time.utils';
 import { EventImpl } from '@fullcalendar/core/internal';
 import { Timestamp } from 'firebase/firestore';
+import { reservationOverlaps } from '../../utils/reservation.utils';
+import { dateToTime, isLater, timeToDate } from 'src/app/modules/common/utils/date-and-time.utils';
 @Component({
   selector: 'calendar',
   templateUrl: './calendar.component.html',
@@ -88,7 +89,7 @@ export class CalendarComponent implements OnDestroy {
    * Opens event editor
    */
   public openEventEditor(res: Reservation, update: boolean = false): void {
-    const data = { reservation: res, creation: !update };
+    const data = { reservation: res, creation: !update, reservations: this.reservations };
     this._popup.open(AppointmentEditionComponent, { data: data, width: '600px' }).beforeClosed().subscribe(() =>
       this.calendar.getApi().unselect()
     )

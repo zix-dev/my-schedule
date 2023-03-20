@@ -16,14 +16,17 @@ export class PopupService {
   }
 
   public set loading(b: boolean) {
-    if (b) this._loadingPanel = this.open(LoadingPanelComponent, {
+    if (b && this._loadingPanel == null) this._loadingPanel = this.open(LoadingPanelComponent, {
       disableClose: true,
       width: '150px',
       height: '80px',
       position: { top: '10px' },
-      hasBackdrop: false
+      backdropClass: 'loading-backdrop'
     });
-    else this._loadingPanel?.close();
+    else if (!b && this._loadingPanel != null) {
+      this._loadingPanel.close();
+      this._loadingPanel = undefined;
+    }
   }
 
   constructor(private _dialog: MatDialog) { }

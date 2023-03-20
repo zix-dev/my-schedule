@@ -1,6 +1,6 @@
-import { timeToString } from 'src/app/modules/common/utils/date-and-time.utils';
 import { Time } from '@angular/common';
 import { Pipe, PipeTransform } from '@angular/core';
+import { timeToString } from '../utils/date-and-time.utils';
 
 @Pipe({
   name: 'time',

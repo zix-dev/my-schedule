@@ -32,3 +32,7 @@ export function isLater(t1: Time, t2: Time): boolean {
   if (t1.hours == t2.hours) return t1.minutes > t2.minutes;
   return t1.hours > t2.hours
 }
+
+export function valueOf(time: Time): number {
+  return time.hours * 60 + time.minutes
+}
