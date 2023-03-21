@@ -1,5 +1,4 @@
 import { Subscription } from 'rxjs';
-import { DatabaseService } from './../../../../database.service';
 import { Reservation } from './../../../common/models/reservation.models';
 import { AppointmentEditionComponent } from './../appointment-edition/appointment-edition.component';
 import { PopupService } from './../../../basic/services/popup.service';
@@ -12,7 +11,6 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import { FullCalendarComponent } from '@fullcalendar/angular/full-calendar.component';
 import { EventImpl } from '@fullcalendar/core/internal';
 import { Timestamp } from 'firebase/firestore';
-import { reservationOverlaps } from '../../utils/reservation.utils';
 import { dateToTime, getDayHeader, getDayMonthHeader, getDayWeekHeader, isLater, timeToDate } from 'src/app/modules/common/utils/date-and-time.utils';
 import { ReservationService } from '../../services/reservation.service';
 @Component({
@@ -48,7 +46,13 @@ export class CalendarComponent implements OnDestroy {
     selectMirror: true,
     allDaySlot: false,
     dayMaxEvents: true,
-    dayHeaderContent: (e) => this._generateHeader(e)
+    dayHeaderContent: (e) => this._generateHeader(e),
+    slotLabelContent: (e) => {
+      let hour = e.date.getHours();
+      if (hour == 0 || hour == 12) hour += 12;
+      if (hour > 12) return `${hour - 12} PM`
+      return `${hour} AM`
+    }
   };
   /**
    * Subscription array
@@ -90,12 +94,6 @@ export class CalendarComponent implements OnDestroy {
     )
   }
   /**
-   * Updates a reservation
-   */
-  public updateReservation(reservation: Reservation): void {
-    this._db.update(reservation);
-  }
-  /**
    * On destroy removes subscription
    */
   public ngOnDestroy(): void {
@@ -112,7 +110,8 @@ export class CalendarComponent implements OnDestroy {
     res.day = newRes.day;
     res.start = newRes.start;
     res.end = newRes.end;
-    this.updateReservation(res)
+    const promise = this._db.update(res);
+    if (promise == null) this.mapReservations()
   }
 
   public createNewResevation(e: CalendarEvent): Reservation {

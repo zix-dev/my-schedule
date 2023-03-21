@@ -52,3 +52,13 @@ full-calendar table,
 .fc-timegrid-body {
   width: 100% !important;
 }
+
+.fc-timegrid-slot-label-frame {
+  display: flex;
+  justify-content: flex-end;
+
+  .fc-timegrid-slot-label-cushion {
+    font-size: 12px;
+    color: #8a8a8a;
+  }
+}

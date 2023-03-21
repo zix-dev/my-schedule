@@ -1,5 +1,4 @@
 import { ReservationService } from './../../services/reservation.service';
-import { DatabaseService } from './../../../../database.service';
 import { PopupService } from './../../../basic/services/popup.service';
 import { Employee, Room, Machine } from './../../../configuration/models/configurations.models';
 import { ConfigService } from './../../../configuration/services/config.service';
@@ -7,7 +6,6 @@ import { Reservation } from '../../../common/models/reservation.models';
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { cloneDeep } from 'lodash';
-import { reservationOverlaps } from '../../utils/reservation.utils';
 
 @Component({
   selector: 'appointment-edition',
@@ -59,13 +57,9 @@ export class AppointmentEditionComponent {
   }
 
   public save(): void {
-    const overlaps = reservationOverlaps(this.reservation, this._db.reservations);
-    if (overlaps.length > 0) this._popup.openDialog({ title: 'Error', text: 'Se ha encontrado solapamiento con esta reserva', buttons: [{ text: 'Vale' }] })
-    else {
-      if (this.reservation.title.trim() == '') this.reservation.title = 'sin título';
-      if (this.data.creation) this._db.put(this.reservation).then(() => this.dialogRef.close());
-      else this._db.update(this.reservation).then(() => this.dialogRef.close());
-    }
+    if (this.reservation.title.trim() == '') this.reservation.title = 'sin título';
+    if (this.data.creation) this._db.put(this.reservation)?.then(() => this.dialogRef.close());
+    else this._db.update(this.reservation)?.then(() => this.dialogRef.close());
   }
 
   public remove(): void {

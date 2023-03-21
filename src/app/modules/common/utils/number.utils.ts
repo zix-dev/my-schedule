@@ -4,3 +4,10 @@ export function placeBetweenLimits(value: number, min?: number, max?: number): n
   if (max != null && value > max) value = max;
   return value;
 }
+
+export function areLinearOverlapped(startA: number, endA: number, startB: number, endB: number): boolean {
+  return ((startA < endB) && (startB < endA) && (startA < endA) && (startB < endB)) ||
+    ((startA < endB) && (startA < endA) && (startB < endA) && (startB < endB)) ||
+    (startA < Math.min(endA, endB) && (startB < Math.min(endA, endB))) ||
+    (Math.max(startA, startB) < Math.min(endA, endB))
+}
