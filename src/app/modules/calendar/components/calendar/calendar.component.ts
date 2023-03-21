@@ -1,3 +1,4 @@
+import { MONTH_NAMES } from './../../../common/utils/date-and-time.utils';
 import { Subscription } from 'rxjs';
 import { Reservation } from './../../../common/models/reservation.models';
 import { AppointmentEditionComponent } from './../appointment-edition/appointment-edition.component';
@@ -71,9 +72,7 @@ export class CalendarComponent implements OnDestroy {
       if (hour > 12) return `${hour - 12} PM`;
       return `${hour} AM`;
     },
-    moreLinkContent: (e) => {
-      return `+${e.num} más`;
-    },
+    moreLinkContent: (e) => `+${e.num} más`,
   };
   /**
    * Subscription array
@@ -175,6 +174,10 @@ export class CalendarComponent implements OnDestroy {
       };
     });
     this.options = { ...this.options, ...{ events: this.events } };
+  }
+
+  public generateYearHeader(date: Date) {
+    return `${MONTH_NAMES[date.getMonth()]} ${date.getFullYear()}`;
   }
 
   private _generateHeader(e: DayHeaderContentArg): string {

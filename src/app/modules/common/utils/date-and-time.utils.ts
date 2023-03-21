@@ -77,6 +77,7 @@ export const MONTH_NAMES = [
   'Mayo',
   'Junio',
   'Julio',
+  'Agosto',
   'Septiembre',
   'Octubre',
   'Noviembre',

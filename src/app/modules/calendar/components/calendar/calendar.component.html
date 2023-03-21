@@ -1,4 +1,7 @@
 <calendar-toolbar [calendar]="calendar"></calendar-toolbar>
+<div class="year" *ngIf="calendar.getApi()?.getDate() as date">
+  {{ generateYearHeader(date) }}
+</div>
 <full-calendar #calendar [options]="options">
   <ng-template #eventContent let-arg>
     <ng-container
