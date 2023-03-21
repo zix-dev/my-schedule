@@ -4,7 +4,7 @@ import { Employee, Room, Machine } from './../../../configuration/models/configu
 import { ConfigService } from './../../../configuration/services/config.service';
 import { Reservation } from '../../../common/models/reservation.models';
 import { Component, Inject } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatLegacyDialogRef as MatDialogRef, MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/legacy-dialog';
 import { cloneDeep } from 'lodash';
 
 @Component({
