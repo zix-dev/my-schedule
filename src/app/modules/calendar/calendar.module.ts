@@ -3,22 +3,19 @@ import { FullCalendarModule } from '@fullcalendar/angular';
 import { NgModule } from '@angular/core';
 import { CommonModule as AngularCommonModule } from '@angular/common';
 import * as Components from './components/index';
-import * as Pipes from './pipes/index'
-
 
 @NgModule({
   declarations: [
     Components.AppointmentEditionComponent,
     Components.CalendarComponent,
     Components.ReservationTileComponent,
-    Pipes.ReservationPipe,
+    Components.CalendarToolbarComponent,
+    Components.MinimalReservationTileComponent,
   ],
-  imports: [
-    AngularCommonModule,
-    FullCalendarModule,
-    CommonModule
-  ],
+  imports: [AngularCommonModule, FullCalendarModule, CommonModule],
   exports: [
-    Components.AppointmentEditionComponent, Components.CalendarComponent]
+    Components.AppointmentEditionComponent,
+    Components.CalendarComponent,
+  ],
 })
-export class CalendarModule { }
+export class CalendarModule {}

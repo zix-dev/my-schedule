@@ -13,26 +13,9 @@ full-calendar {
   overflow: hidden;
 
   ::ng-deep {
-
     .fc-timeGridDay-view .fc-event .fc-daygrid-event-dot,
     .fc-timeGridWeek-view .fc-event .fc-daygrid-event-dot {
-      display: none
+      display: none;
     }
-  }
-}
-
-.toolbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 20px;
-
-  .left {
-    display: flex;
-    align-items: center;
-  }
-
-  .today {
-    margin-left: 10px;
   }
 }

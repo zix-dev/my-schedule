@@ -1,0 +1,37 @@
+<div class="left">
+  <div class="prev-next">
+    <btn
+      type="primary"
+      icon="fa-solid fa-angle-left"
+      (onClick)="calendar.getApi().prev()"
+    ></btn>
+    <btn
+      type="primary"
+      icon="fa-solid fa-angle-right"
+      (onClick)="calendar.getApi().next()"
+    ></btn>
+  </div>
+  <btn
+    class="today"
+    type="primary"
+    text="Hoy"
+    (onClick)="calendar.getApi().today()"
+  ></btn>
+</div>
+<div class="right">
+  <btn
+    type="primary"
+    text="Mes"
+    (onClick)="calendar.getApi().changeView('dayGridMonth')"
+  ></btn>
+  <btn
+    type="primary"
+    text="Semana"
+    (onClick)="calendar.getApi().changeView('timeGridWeek')"
+  ></btn>
+  <btn
+    type="primary"
+    text="Día"
+    (onClick)="calendar.getApi().changeView('timeGridDay')"
+  ></btn>
+</div>

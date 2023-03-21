@@ -1,52 +1,26 @@
-<div class="toolbar">
-  <div class="left">
-    <div class="prev-next">
-      <btn
-        type="primary"
-        icon="fa-solid fa-angle-left"
-        (onClick)="calendar.getApi().prev()"
-      ></btn>
-      <btn
-        type="primary"
-        icon="fa-solid fa-angle-right"
-        (onClick)="calendar.getApi().next()"
-      ></btn>
-    </div>
-    <btn
-      class="today"
-      type="primary"
-      text="Hoy"
-      (onClick)="calendar.getApi().today()"
-    ></btn>
-  </div>
-  <div class="right">
-    <btn
-      type="primary"
-      text="Mes"
-      (onClick)="calendar.getApi().changeView('dayGridMonth')"
-    ></btn>
-    <btn
-      type="primary"
-      text="Semana"
-      (onClick)="calendar.getApi().changeView('timeGridWeek')"
-    ></btn>
-    <btn
-      type="primary"
-      text="Día"
-      (onClick)="calendar.getApi().changeView('timeGridDay')"
-    ></btn>
-  </div>
-</div>
+<calendar-toolbar [calendar]="calendar"></calendar-toolbar>
 <full-calendar #calendar [options]="options">
   <ng-template #eventContent let-arg>
-    <reservation-tile
+    <ng-container
       *ngIf="!(arg.event.id | nullOrEmpty); else selection"
-      [event]="arg.event"
-      [reservation]="arg.event.id | reservation"
-    ></reservation-tile>
-
+      [ngTemplateOutlet]="reservation"
+      [ngTemplateOutletContext]="{ arg: arg }"
+    ></ng-container>
     <ng-template #selection>
       <div>{{ arg.timeText }}</div>
     </ng-template>
   </ng-template>
 </full-calendar>
+
+<ng-template #reservation let-arg="arg">
+  <minimal-reservation-tile
+    *ngIf="arg.view.type == 'dayGridMonth'; else fullReservation"
+    class="flex"
+    [event]="arg.event"
+  >
+  </minimal-reservation-tile>
+
+  <ng-template #fullReservation>
+    <reservation-tile [event]="arg.event"></reservation-tile>
+  </ng-template>
+</ng-template>

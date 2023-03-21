@@ -1,6 +1,6 @@
+import { ReservationService } from './../../services/reservation.service';
 import { CalendarEvent } from './../calendar/calendar.component';
 import { Reservation } from './../../../common/models/reservation.models';
-import { ConfigService } from './../../../configuration/services/config.service';
 import { Component, Input } from '@angular/core';
 
 @Component({
@@ -10,9 +10,15 @@ import { Component, Input } from '@angular/core';
 })
 export class ReservationTileComponent {
 
-  @Input() public reservation!: Reservation;
-  @Input() public event!: CalendarEvent;
-
-  public constructor(private _config: ConfigService) { }
+  public reservation!: Reservation;
+  private _event!: CalendarEvent;
+  public get event(): CalendarEvent {
+    return this._event;
+  }
+  @Input() public set event(e: CalendarEvent) {
+    this._event = e;
+    this.reservation = this._db.reservations.find(r => r.id == this.event.id)!;
+  }
+  public constructor(private _db: ReservationService) { }
 
 }
