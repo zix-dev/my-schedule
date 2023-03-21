@@ -2,13 +2,16 @@ import { CommonModule } from './../common/common.module';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { NgModule } from '@angular/core';
 import { CommonModule as AngularCommonModule } from '@angular/common';
-import * as Components from './components/index'
+import * as Components from './components/index';
+import * as Pipes from './pipes/index'
 
 
 @NgModule({
   declarations: [
     Components.AppointmentEditionComponent,
     Components.CalendarComponent,
+    Components.ReservationTileComponent,
+    Pipes.ReservationPipe,
   ],
   imports: [
     AngularCommonModule,

@@ -38,12 +38,15 @@
   </div>
 </div>
 <full-calendar #calendar [options]="options">
-  <!--<ng-template #eventContent let-arg>
-    <div
-      class="fc-daygrid-event-dot"
-      [style.border-color]="arg.event.color"
-    ></div>
-    <span *ngIf="arg.timeText">{{ arg.timeText }}</span>
-    <i *ngIf="arg.event.title">{{ arg.event.title }}</i>
-  </ng-template>-->
+  <ng-template #eventContent let-arg>
+    <reservation-tile
+      *ngIf="!(arg.event.id | nullOrEmpty); else selection"
+      [event]="arg.event"
+      [reservation]="arg.event.id | reservation"
+    ></reservation-tile>
+
+    <ng-template #selection>
+      <div>{{ arg.timeText }}</div>
+    </ng-template>
+  </ng-template>
 </full-calendar>

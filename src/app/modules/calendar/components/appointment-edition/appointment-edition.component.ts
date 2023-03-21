@@ -1,3 +1,4 @@
+import { ReservationService } from './../../services/reservation.service';
 import { DatabaseService } from './../../../../database.service';
 import { PopupService } from './../../../basic/services/popup.service';
 import { Employee, Room, Machine } from './../../../configuration/models/configurations.models';
@@ -22,9 +23,9 @@ export class AppointmentEditionComponent {
   public constructor(
     public config: ConfigService,
     public dialogRef: MatDialogRef<AppointmentEditionComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { reservation: Reservation; creation: boolean, reservations: Reservation[] },
+    @Inject(MAT_DIALOG_DATA) public data: { reservation: Reservation; creation: boolean },
     private _popup: PopupService,
-    private _db: DatabaseService
+    private _db: ReservationService
   ) {
     this.reservation = cloneDeep(data.reservation);
     this.selectedEmployees = this.config.personal.filter(e => this.reservation.personalIds?.includes(e.id!))
@@ -58,12 +59,12 @@ export class AppointmentEditionComponent {
   }
 
   public save(): void {
-    const overlaps = reservationOverlaps(this.reservation, this.data.reservations);
+    const overlaps = reservationOverlaps(this.reservation, this._db.reservations);
     if (overlaps.length > 0) this._popup.openDialog({ title: 'Error', text: 'Se ha encontrado solapamiento con esta reserva', buttons: [{ text: 'Vale' }] })
     else {
       if (this.reservation.title.trim() == '') this.reservation.title = 'sin título';
-      if (this.data.creation) this._db.put(this.reservation, 'reservations').then(() => this.dialogRef.close());
-      else this._db.update(this.reservation, 'reservations').then(() => this.dialogRef.close());
+      if (this.data.creation) this._db.put(this.reservation).then(() => this.dialogRef.close());
+      else this._db.update(this.reservation).then(() => this.dialogRef.close());
     }
   }
 
@@ -73,7 +74,7 @@ export class AppointmentEditionComponent {
         { text: 'Cancelar' }, { text: 'Eliminar', icon: 'fa-solid fa-trash', type: 'warn' }
       ]
     }).afterClosed().subscribe((result) => {
-      if (result == 1) this._db.del(this.data.reservation, 'reservations');
+      if (result == 1) this._db.del(this.data.reservation);
       this.dialogRef.close()
     })
   }

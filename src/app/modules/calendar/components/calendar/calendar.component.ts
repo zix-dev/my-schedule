@@ -4,7 +4,7 @@ import { Reservation } from './../../../common/models/reservation.models';
 import { AppointmentEditionComponent } from './../appointment-edition/appointment-edition.component';
 import { PopupService } from './../../../basic/services/popup.service';
 import { Component, ViewChild, OnDestroy } from '@angular/core';
-import { CalendarOptions, DateSelectArg } from '@fullcalendar/core';
+import { CalendarOptions, DateSelectArg, DayHeaderContentArg } from '@fullcalendar/core';
 
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
@@ -13,7 +13,8 @@ import { FullCalendarComponent } from '@fullcalendar/angular/full-calendar.compo
 import { EventImpl } from '@fullcalendar/core/internal';
 import { Timestamp } from 'firebase/firestore';
 import { reservationOverlaps } from '../../utils/reservation.utils';
-import { dateToTime, isLater, timeToDate } from 'src/app/modules/common/utils/date-and-time.utils';
+import { dateToTime, getDayHeader, getDayMonthHeader, getDayWeekHeader, isLater, timeToDate } from 'src/app/modules/common/utils/date-and-time.utils';
+import { ReservationService } from '../../services/reservation.service';
 @Component({
   selector: 'calendar',
   templateUrl: './calendar.component.html',
@@ -29,10 +30,6 @@ export class CalendarComponent implements OnDestroy {
    */
   public events: CalendarEvent[] = [];
   /**
-   * Array of reservations
-   */
-  public reservations: Reservation[] = [];
-  /**
    * Calendar options
    */
   public options: CalendarOptions = {
@@ -45,12 +42,13 @@ export class CalendarComponent implements OnDestroy {
     eventClick: (e) => this.editEvent(e.event),
     eventDrop: (e) => this.updateReservationFromEvent(e.event as CalendarEvent),
     eventResize: (e) => this.updateReservationFromEvent(e.event as CalendarEvent),
-    dateClick: (e) => this.calendar.getApi().changeView('timeGridDay', e.date),
+    dateClick: (e) => { if (this.calendar.getApi().getCurrentData().currentViewType == 'dayGridMonth') this.calendar.getApi().changeView('timeGridDay', e.date); },
     editable: true,
     selectable: true,
     selectMirror: true,
     allDaySlot: false,
     dayMaxEvents: true,
+    dayHeaderContent: (e) => this._generateHeader(e)
   };
   /**
    * Subscription array
@@ -59,11 +57,8 @@ export class CalendarComponent implements OnDestroy {
   /**
    * On the constructor subscribes to the db changes to update the calendar
    */
-  public constructor(private _popup: PopupService, private _db: DatabaseService) {
-    this._db.get<Reservation>('reservations').subscribe(reservations => {
-      this.reservations = reservations;
-      this.mapReservations();
-    })
+  public constructor(private _popup: PopupService, private _db: ReservationService) {
+    this._db.reservationsChanged.subscribe(() => this.mapReservations())
   }
   /**
    * Called when there have been a selection in the calendar
@@ -83,13 +78,13 @@ export class CalendarComponent implements OnDestroy {
    * Edits an event
    */
   public editEvent(e: EventImpl): void {
-    this.openEventEditor(this.getReservation(e.id), true);
+    this.openEventEditor(this._db.get(e.id), true);
   }
   /**
    * Opens event editor
    */
   public openEventEditor(res: Reservation, update: boolean = false): void {
-    const data = { reservation: res, creation: !update, reservations: this.reservations };
+    const data = { reservation: res, creation: !update };
     this._popup.open(AppointmentEditionComponent, { data: data, width: '600px' }).beforeClosed().subscribe(() =>
       this.calendar.getApi().unselect()
     )
@@ -98,7 +93,7 @@ export class CalendarComponent implements OnDestroy {
    * Updates a reservation
    */
   public updateReservation(reservation: Reservation): void {
-    this._db.update(reservation, 'reservations');
+    this._db.update(reservation);
   }
   /**
    * On destroy removes subscription
@@ -108,7 +103,7 @@ export class CalendarComponent implements OnDestroy {
   }
 
   public updateReservationFromEvent(e: CalendarEvent): void {
-    const res = { ...this.getReservation(e.id!) }
+    const res = { ...this._db.get(e.id!) }
     const newRes = this.createNewResevation(e);
     if (e.allDay || isLater(newRes.start, newRes.end)) {
       this.mapReservations();
@@ -131,7 +126,7 @@ export class CalendarComponent implements OnDestroy {
   }
 
   public mapReservations(): void {
-    this.events = this.reservations.map((res) => {
+    this.events = this._db.reservations.map((res) => {
       const day = res.day.toDate()!;
       return {
         title: res.title,
@@ -147,8 +142,17 @@ export class CalendarComponent implements OnDestroy {
     this.options = { ...this.options, ...{ events: this.events } };
   }
 
-  public getReservation(id: string): Reservation {
-    return this.reservations.find(r => r.id == id)!;
+  private _generateHeader(e: DayHeaderContentArg): string {
+    switch (e.view.type) {
+      case 'dayGridMonth': return getDayMonthHeader(e.date);
+      case 'timeGridWeek': return getDayWeekHeader(e.date);
+      default: return getDayHeader(e.date);
+    }
+  }
+
+  public l(a: any): any {
+    console.log(a);
+    return a;
   }
 }
 
@@ -159,8 +163,5 @@ export type CalendarEvent =
     start: Date,
     end?: Date,
     color?: string;
-    personalIds?: string[];
-    roomsIds?: string[];
-    machinesIds?: string[];
     allDay?: boolean
   };

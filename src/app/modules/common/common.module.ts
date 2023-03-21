@@ -10,6 +10,7 @@ import * as Components from './components/index';
     Pipes.TimestampPipe,
     Components.SidebarComponent,
     Components.ScrollComponent,
+    Pipes.NullOrEmptyPipe,
   ],
   imports: [
     AngularCommonModule, BasicModule
@@ -17,6 +18,7 @@ import * as Components from './components/index';
   exports: [
     Pipes.TimePipe,
     Pipes.TimestampPipe,
+    Pipes.NullOrEmptyPipe,
     Components.SidebarComponent,
     Components.ScrollComponent,
     BasicModule

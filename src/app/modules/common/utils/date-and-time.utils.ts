@@ -36,3 +36,21 @@ export function isLater(t1: Time, t2: Time): boolean {
 export function valueOf(time: Time): number {
   return time.hours * 60 + time.minutes
 }
+
+export function getDayMonthHeader(date: Date): string {
+  return WEEK_NAMES[date.getDay()]
+}
+
+export function getDayWeekHeader(date: Date): string {
+  const name = WEEK_NAMES[date.getDay()].substring(0, 3);
+  return `${name} ${date.getDate()}`;
+}
+
+export function getDayHeader(date: Date): string {
+  const weekName = WEEK_NAMES[date.getDay()];
+  const monthName = MONTH_NAMES[date.getMonth()];
+  return `${weekName} ${date.getDate()} de ${monthName}`
+}
+
+export const WEEK_NAMES = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
+export const MONTH_NAMES = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
