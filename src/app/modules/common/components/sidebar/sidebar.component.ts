@@ -1,4 +1,4 @@
-import { Component, HostBinding, Input, OnInit, Output, EventEmitter, HostListener } from '@angular/core';
+import { Component, HostBinding, Input, Output, EventEmitter, HostListener } from '@angular/core';
 
 @Component({
   selector: 'sidebar',

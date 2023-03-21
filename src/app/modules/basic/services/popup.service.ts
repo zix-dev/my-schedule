@@ -35,8 +35,6 @@ export class PopupService {
     if (config == null) config = {};
     config.maxHeight = config.maxHeight ?? '80vh'
     config.maxWidth = config.maxWidth ?? '80vw'
-    config.height = config.height;
-    config.width = config.width;
     return this._dialog.open(component, config);
   }
 

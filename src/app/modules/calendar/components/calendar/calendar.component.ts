@@ -148,11 +148,6 @@ export class CalendarComponent implements OnDestroy {
       default: return getDayHeader(e.date);
     }
   }
-
-  public l(a: any): any {
-    console.log(a);
-    return a;
-  }
 }
 
 export type CalendarEvent =
