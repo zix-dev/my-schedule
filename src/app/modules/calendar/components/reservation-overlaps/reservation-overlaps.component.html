@@ -1,9 +1,20 @@
 <div class="title">Reserva incompatible</div>
 <hr />
 <div class="body">
-  Se han encontrado algunos elementos ya reservados dentro de esta franja
-  horaria
+  <div class="text">
+    Se han encontrado algunos elementos ya reservados dentro de la franja
+    horaria seleccionada ({{ data.reservation.start | time }} -
+    {{ data.reservation.end | time }}):
+  </div>
+  <scroll>
+    <div class="overlap-list flex-col gap-5">
+      <div class="overlap" *ngFor="let overlap of overlaps">
+        <div><i [class]="overlap.icon"></i>{{ overlap.name }}</div>
+        <div>{{ overlap.start | time }} - {{ overlap.end | time }}</div>
+      </div>
+    </div>
+  </scroll>
 </div>
 <div class="footer">
-  <btn text="Ok" (onClick)="dialogRef.close()"></btn>
+  <btn text="Vale" (onClick)="dialogRef.close()"></btn>
 </div>

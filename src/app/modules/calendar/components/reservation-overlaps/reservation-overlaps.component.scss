@@ -1,6 +1,7 @@
 :host {
   display: flex;
   flex-direction: column;
+  max-height: inherit;
 }
 
 hr {
@@ -15,6 +16,28 @@ hr {
 
 .body {
   padding: 0 20px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  .text {
+    margin-bottom: 10px;
+  }
+  .overlap-list {
+    padding-right: 10px;
+  }
+}
+
+.overlap {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px;
+  background-color: #efefef;
+  border-radius: 5px;
+  justify-content: space-between;
+  i {
+    padding: 0 5px;
+  }
 }
 
 .footer {

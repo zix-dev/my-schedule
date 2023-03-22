@@ -53,7 +53,11 @@ export class ReservationService {
 
   private _checkReservationOverlaps(res: Reservation): boolean {
     const overlaps = this._getReservationOverlaps(res);
-    if (overlaps.length > 0) this._popup.open(ReservationOverlapsComponent);
+    if (overlaps.length > 0)
+      this._popup.open(ReservationOverlapsComponent, {
+        data: { overlaps: overlaps, reservation: res },
+        width: '450px',
+      });
     return overlaps.length > 0;
   }
 
@@ -68,7 +72,7 @@ export class ReservationService {
         areLinearOverlapped(resStart, resEnd, valueOf(r.start), valueOf(r.end))
       ) {
         const overlap: ReservationOverlap = {
-          reservationId: r.id!,
+          reservation: r,
           personalIds: [],
           roomIds: [],
           machinesIds: [],
@@ -92,7 +96,7 @@ export class ReservationService {
 }
 
 export type ReservationOverlap = {
-  reservationId: string;
+  reservation: Reservation;
   personalIds: string[];
   roomIds: string[];
   machinesIds: string[];
