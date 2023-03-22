@@ -1,8 +1,7 @@
 import { AngularMaterialModule } from './../externals/angular-material/angular-material.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import * as Components from './components/index'
-
+import * as Components from './components/index';
 
 @NgModule({
   declarations: [
@@ -14,12 +13,10 @@ import * as Components from './components/index'
     Components.ColorBoxComponent,
     Components.MultiselectionComponent,
     Components.DialogComponent,
-    Components.LoadingPanelComponent
+    Components.LoadingPanelComponent,
+    Components.DatePickerComponent,
   ],
-  imports: [
-    CommonModule,
-    AngularMaterialModule
-  ],
+  imports: [CommonModule, AngularMaterialModule],
   exports: [
     Components.TimeBoxComponent,
     Components.NumberBoxComponent,
@@ -27,7 +24,8 @@ import * as Components from './components/index'
     Components.BtnComponent,
     Components.AutocompleteComponent,
     Components.ColorBoxComponent,
-    Components.MultiselectionComponent
-  ]
+    Components.MultiselectionComponent,
+    Components.DatePickerComponent,
+  ],
 })
-export class BasicModule { }
+export class BasicModule {}

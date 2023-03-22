@@ -3,13 +3,17 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 @Component({
   selector: 'btn',
   templateUrl: './btn.component.html',
-  styleUrls: ['./btn.component.scss']
+  styleUrls: ['./btn.component.scss'],
 })
 export class BtnComponent {
   /**
    * Text in the button
    */
   @Input() public text?: string;
+  /**
+   * Tooltip of the button
+   */
+  @Input() public tooltip: string = '';
   /**
    * Text in the button
    */
@@ -29,15 +33,15 @@ export class BtnComponent {
   /**
    * Click event
    */
-  @Output() public readonly onClick = new EventEmitter<void>()
+  @Output() public readonly onClick = new EventEmitter<void>();
   /**
    * Click event
    */
-  @Output() public readonly onDblClick = new EventEmitter<void>()
+  @Output() public readonly onDblClick = new EventEmitter<void>();
   /**
    * Click event
    */
-  @Output() public readonly onRightClick = new EventEmitter<void>()
+  @Output() public readonly onRightClick = new EventEmitter<void>();
 }
 
 export type ButtonType = 'primary' | 'normal' | 'warn';

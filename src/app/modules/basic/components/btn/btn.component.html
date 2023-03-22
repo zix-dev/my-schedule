@@ -3,6 +3,7 @@
   mat-flat-button
   [color]="type"
   [disabled]="disabled"
+  [matTooltip]="tooltip"
   (click)="onClick.emit()"
   (dblclick)="onDblClick.emit()"
   (auxclick)="onRightClick.emit()"
@@ -18,6 +19,7 @@
     mat-icon-button
     [color]="type"
     [disabled]="disabled"
+    [matTooltip]="tooltip"
     (click)="onClick.emit()"
     (dblclick)="onDblClick.emit()"
     (auxclick)="onRightClick.emit()"

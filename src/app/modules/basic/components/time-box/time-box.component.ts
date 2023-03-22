@@ -29,6 +29,10 @@ export class TimeBoxComponent implements AfterViewInit {
    */
   @Input() public readonly: boolean = false;
   /**
+   * Flag to set the component to required
+   */
+  @Input() public required: boolean = false;
+  /**
    * Flag to set the component to disabled
    */
   @Input() public disabled: boolean = false;

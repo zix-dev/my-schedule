@@ -8,7 +8,7 @@ import {
 import { ConfigService } from './../../../configuration/services/config.service';
 import { Reservation } from '../../../common/models/reservation.models';
 import { Component, Inject } from '@angular/core';
-import { cloneDeep } from 'lodash';
+import { cloneDeep, isEqual } from 'lodash';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
@@ -21,7 +21,8 @@ export class AppointmentEditionComponent {
   public selectedRooms: Room[] = [];
   public selectedMachines: Machine[] = [];
   public reservation!: Reservation;
-  public pristine: boolean = false;
+  public pristine = true;
+  public saveDisabled: boolean = true;
   public constructor(
     public config: ConfigService,
     public dialogRef: MatDialogRef<AppointmentEditionComponent>,
@@ -40,6 +41,7 @@ export class AppointmentEditionComponent {
     this.selectedMachines = this.config.machines.filter((m) =>
       this.reservation.machinesIds?.includes(m.id!)
     );
+    this.saveDisabled = !data.creation;
   }
 
   public unselectEmployee(employee: Employee): void {
@@ -83,8 +85,16 @@ export class AppointmentEditionComponent {
     if (this.reservation.title.trim() == '')
       this.reservation.title = 'sin título';
     if (this.data.creation)
-      this._db.put(this.reservation)?.then(() => this.dialogRef.close());
-    else this._db.update(this.reservation)?.then(() => this.dialogRef.close());
+      this._db.put(this.reservation)?.then(() => {
+        this.data.reservation = cloneDeep(this.reservation);
+        this.data.creation = false;
+        this.updateSaveDisabled();
+      });
+    else
+      this._db.update(this.reservation)?.then(() => {
+        this.data.reservation = cloneDeep(this.reservation);
+        this.updateSaveDisabled();
+      });
   }
 
   public remove(): void {
@@ -99,8 +109,19 @@ export class AppointmentEditionComponent {
       })
       .afterClosed()
       .subscribe((result) => {
-        if (result == 1) this._db.del(this.data.reservation);
-        this.dialogRef.close();
+        if (result == 1) {
+          this._db.del(this.data.reservation);
+          this.dialogRef.close();
+        }
       });
+  }
+
+  public updateSaveDisabled(): void {
+    this.pristine =
+      !this.data.creation && isEqual(this.reservation, this.data.reservation);
+    this.saveDisabled =
+      this.reservation.start == null ||
+      this.reservation.end == null ||
+      this.pristine;
   }
 }

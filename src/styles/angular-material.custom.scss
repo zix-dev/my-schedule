@@ -20,12 +20,20 @@ button.mdc-button {
 }
 
 button.mat-mdc-icon-button {
-  width: 40px;
-  height: 40px;
-  padding: 0;
+  width: 40px !important;
+  height: 40px !important;
+  padding: 0 !important;
   font-size: 16px;
 }
 
 div.mat-mdc-dialog-surface {
   overflow: hidden;
+}
+
+button.cdk-focused .mat-mdc-button-persistent-ripple::before {
+  opacity: 0 !important;
+}
+
+button.cdk-focused:hover .mat-mdc-button-persistent-ripple::before {
+  opacity: 0.04 !important;
 }

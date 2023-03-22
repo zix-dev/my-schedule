@@ -38,12 +38,12 @@ export class ReservationService {
   public put(
     reservation: Reservation
   ): Promise<DocumentReference<Reservation>> | null {
-    if (this._checkReservationOverlaps(reservation)) return null;
+    if (this.checkReservationOverlaps(reservation)) return null;
     return this._db.put<Reservation>(reservation, 'reservations');
   }
 
   public update(reservation: Reservation): Promise<void> | null {
-    if (this._checkReservationOverlaps(reservation)) return null;
+    if (this.checkReservationOverlaps(reservation)) return null;
     return this._db.update<Reservation>(reservation, 'reservations');
   }
 
@@ -51,7 +51,7 @@ export class ReservationService {
     return this._db.del<Reservation>(reservation, 'reservations');
   }
 
-  private _checkReservationOverlaps(res: Reservation): boolean {
+  public checkReservationOverlaps(res: Reservation): boolean {
     const overlaps = this._getReservationOverlaps(res);
     if (overlaps.length > 0)
       this._popup.open(ReservationOverlapsComponent, {

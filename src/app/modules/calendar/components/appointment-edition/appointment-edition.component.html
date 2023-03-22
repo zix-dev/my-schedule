@@ -1,6 +1,14 @@
 <div class="header">
-  <div class="title">Reserva</div>
-  <div class="subtitle">Dia: {{ reservation.day | timestamp }}</div>
+  <div>
+    <div class="title">Reserva</div>
+    <div class="subtitle">Dia: {{ reservation.day | timestamp }}</div>
+  </div>
+  <btn
+    *ngIf="pristine"
+    [iconButton]="true"
+    icon="fa-solid fa-calendar-plus"
+    tooltip="Repetir"
+  ></btn>
 </div>
 <hr class="top" />
 <scroll>
@@ -10,16 +18,25 @@
       <text-box
         placeholder="agrega un título"
         [(value)]="reservation.title"
+        (valueChange)="updateSaveDisabled()"
       ></text-box>
     </div>
     <div class="times flex align-center wrap">
       <div>
         <div class="label">Inicio:</div>
-        <time-box [(value)]="reservation.start"></time-box>
+        <time-box
+          [required]="true"
+          [(value)]="reservation.start"
+          (valueChange)="updateSaveDisabled()"
+        ></time-box>
       </div>
       <div>
         <div class="label">Fin:</div>
-        <time-box [(value)]="reservation.end"></time-box>
+        <time-box
+          [required]="true"
+          [(value)]="reservation.end"
+          (valueChange)="updateSaveDisabled()"
+        ></time-box>
       </div>
     </div>
     <div *ngIf="config.personal != null">
@@ -29,7 +46,7 @@
         [(selection)]="selectedEmployees"
         [customChip]="employeeChip"
         [customOption]="option"
-        (selectionChange)="updateSelection()"
+        (selectionChange)="updateSelection(); updateSaveDisabled()"
       ></multiselection>
     </div>
     <div *ngIf="config.rooms != null">
@@ -39,7 +56,7 @@
         [(selection)]="selectedRooms"
         [customChip]="roomChip"
         [customOption]="option"
-        (selectionChange)="updateSelection()"
+        (selectionChange)="updateSelection(); updateSaveDisabled()"
       ></multiselection>
     </div>
     <div *ngIf="config.machines != null">
@@ -49,7 +66,7 @@
         [(selection)]="selectedMachines"
         [customChip]="machineChip"
         [customOption]="option"
-        (selectionChange)="updateSelection()"
+        (selectionChange)="updateSelection(); updateSaveDisabled()"
       ></multiselection>
     </div>
   </div>
@@ -61,10 +78,16 @@
     class="delete-button"
     icon="fa-solid fa-trash"
     type="warn"
+    tooltip="Eliminar"
     [iconButton]="true"
     (onClick)="remove()"
   ></btn>
-  <btn type="primary" text="Guardar" (onClick)="save()"></btn>
+  <btn
+    [disabled]="saveDisabled"
+    type="primary"
+    text="Guardar"
+    (onClick)="save()"
+  ></btn>
   <btn text="Cancelar" (onClick)="dialogRef.close()"></btn>
 </div>
 <ng-template #option let-option="option">{{ option.name }}</ng-template>
