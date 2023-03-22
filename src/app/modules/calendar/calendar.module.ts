@@ -11,6 +11,7 @@ import * as Components from './components/index';
     Components.ReservationTileComponent,
     Components.CalendarToolbarComponent,
     Components.MinimalReservationTileComponent,
+    Components.ReservationOverlapsComponent,
   ],
   imports: [AngularCommonModule, FullCalendarModule, CommonModule],
   exports: [
