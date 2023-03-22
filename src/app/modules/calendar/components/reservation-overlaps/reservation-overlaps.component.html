@@ -1,14 +1,9 @@
-<ng-container *ngIf="data.title != null">
-  <div class="title">{{ data.title }}</div>
-  <hr />
-</ng-container>
-<div class="body">{{ data.text }}</div>
+<div class="title">Reserva incompatible</div>
+<hr />
+<div class="body">
+  Se han encontrado algunos elementos ya reservados dentro de esta franja
+  horaria
+</div>
 <div class="footer">
-  <btn
-    *ngFor="let b of data.buttons; let i = index"
-    [text]="b.text"
-    [icon]="b.icon"
-    [type]="b.type ?? 'normal'"
-    (onClick)="dialogRef.close(i)"
-  ></btn>
+  <btn text="Ok" (onClick)="dialogRef.close()"></btn>
 </div>

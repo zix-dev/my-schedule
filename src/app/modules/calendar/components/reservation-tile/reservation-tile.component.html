@@ -1,2 +1,4 @@
-<div>{{ event.start | time }} - {{ event.end | time }}</div>
-<div>{{ reservation.title }}</div>
+<div [style.color]="reservation.color | contrast">
+  <div>{{ event.start | time }} - {{ event.end | time }}</div>
+  <div>{{ reservation.title }}</div>
+</div>

@@ -12,6 +12,7 @@ import * as Components from './components/index';
     Components.ScrollComponent,
     Pipes.NullOrEmptyPipe,
     Pipes.MonthPipe,
+    Pipes.ContrastPipe,
   ],
   imports: [AngularCommonModule, BasicModule],
   exports: [
@@ -21,6 +22,7 @@ import * as Components from './components/index';
     Components.SidebarComponent,
     Components.ScrollComponent,
     Pipes.MonthPipe,
+    Pipes.ContrastPipe,
     BasicModule,
   ],
 })

@@ -1,5 +1,13 @@
 import { Time } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  AfterViewInit,
+  ViewChild,
+  ElementRef,
+} from '@angular/core';
 import {
   stringToTime,
   timeToString,
@@ -10,7 +18,8 @@ import {
   templateUrl: './time-box.component.html',
   styleUrls: ['./time-box.component.scss'],
 })
-export class TimeBoxComponent {
+export class TimeBoxComponent implements AfterViewInit {
+  @ViewChild('input') public input!: ElementRef<HTMLInputElement>;
   /**
    * String to show in the box when it's empty
    */
@@ -63,4 +72,9 @@ export class TimeBoxComponent {
    * Emits when value is changed
    */
   @Output() public readonly valueChange = new EventEmitter<Time>();
+
+  public ngAfterViewInit(): void {
+    this.input.nativeElement.className =
+      this.input.nativeElement.className.replace('mdc-text-field__input', '');
+  }
 }
