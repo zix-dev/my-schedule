@@ -3,25 +3,13 @@ import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 @Component({
   selector: 'autocomplete',
   templateUrl: './autocomplete.component.html',
-  styleUrls: ['./autocomplete.component.scss']
+  styleUrls: ['./autocomplete.component.scss'],
 })
 export class AutocompleteComponent implements OnInit {
-  /**
-   * Hint to show under the box
-   */
-  @Input() public hint?: string;
   /**
    * String to show in the box when it's empty
    */
   @Input() public placeholder: string = '';
-  /**
-   * String to show under the box when there is an error
-   */
-  @Input() public error?: string;
-  /**
-   * String to show the name of the field above the box
-   */
-  @Input() public label?: string;
   /**
    * Flag to set the component to readonly
    */
@@ -45,18 +33,20 @@ export class AutocompleteComponent implements OnInit {
   /**
    * List of options filtered by string
    */
-  public filteredOptions: string[] = []
+  public filteredOptions: string[] = [];
   /**
-  * Emits when value is changed
-  */
+   * Emits when value is changed
+   */
   @Output() public readonly valueChange = new EventEmitter<string>();
   public ngOnInit(): void {
-    this.filterOptions()
+    this.filterOptions();
   }
   /**
    * Filters the options
    */
   public filterOptions(): void {
-    this.filteredOptions = this.options.filter((o) => o.includes(this.value.trim()))
+    this.filteredOptions = this.options.filter((o) =>
+      o.includes(this.value.trim())
+    );
   }
 }

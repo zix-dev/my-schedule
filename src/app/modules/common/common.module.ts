@@ -11,17 +11,17 @@ import * as Components from './components/index';
     Components.SidebarComponent,
     Components.ScrollComponent,
     Pipes.NullOrEmptyPipe,
+    Pipes.MonthPipe,
   ],
-  imports: [
-    AngularCommonModule, BasicModule
-  ],
+  imports: [AngularCommonModule, BasicModule],
   exports: [
     Pipes.TimePipe,
     Pipes.TimestampPipe,
     Pipes.NullOrEmptyPipe,
     Components.SidebarComponent,
     Components.ScrollComponent,
-    BasicModule
-  ]
+    Pipes.MonthPipe,
+    BasicModule,
+  ],
 })
-export class CommonModule { }
+export class CommonModule {}

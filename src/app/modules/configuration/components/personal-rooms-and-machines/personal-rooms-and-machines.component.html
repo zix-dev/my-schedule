@@ -49,6 +49,9 @@
             <span>Nombre: </span>
             <text-box
               [(value)]="selectedEmployee.name"
+              label="label"
+              placeholder="placeholder"
+              hint="hint"
               (valueChange)="checkDirty()"
             ></text-box>
           </div>

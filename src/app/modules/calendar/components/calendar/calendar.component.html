@@ -1,8 +1,8 @@
-<calendar-toolbar [calendar]="calendar"></calendar-toolbar>
-<div class="year" *ngIf="calendar.getApi()?.getDate() as date">
-  {{ generateYearHeader(date) }}
+<calendar-toolbar *ngIf="calendar" [calendar]="calendar"></calendar-toolbar>
+<div class="year" *ngIf="calendar">
+  {{ calendar.getDate() | month }}
 </div>
-<full-calendar #calendar [options]="options">
+<full-calendar #fullCalendar [options]="options">
   <ng-template #eventContent let-arg>
     <ng-container
       *ngIf="!(arg.event.id | nullOrEmpty); else selection"

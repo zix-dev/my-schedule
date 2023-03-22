@@ -1,10 +1,10 @@
-import { MONTH_NAMES } from './../../../common/utils/date-and-time.utils';
 import { Subscription } from 'rxjs';
 import { Reservation } from './../../../common/models/reservation.models';
 import { AppointmentEditionComponent } from './../appointment-edition/appointment-edition.component';
 import { PopupService } from './../../../basic/services/popup.service';
-import { Component, ViewChild, OnDestroy } from '@angular/core';
+import { Component, ViewChild, OnDestroy, AfterViewInit } from '@angular/core';
 import {
+  Calendar,
   CalendarOptions,
   DateSelectArg,
   DayHeaderContentArg,
@@ -30,11 +30,12 @@ import { ReservationService } from '../../services/reservation.service';
   templateUrl: './calendar.component.html',
   styleUrls: ['./calendar.component.scss'],
 })
-export class CalendarComponent implements OnDestroy {
+export class CalendarComponent implements OnDestroy, AfterViewInit {
   /**
    * Calendar component ref
    */
-  @ViewChild('calendar') public calendar!: FullCalendarComponent;
+  @ViewChild('fullCalendar') public calendarComponent!: FullCalendarComponent;
+  public calendar!: Calendar;
   /**
    * Array of events
    */
@@ -54,11 +55,8 @@ export class CalendarComponent implements OnDestroy {
     eventResize: (e) =>
       this.updateReservationFromEvent(e.event as CalendarEvent),
     dateClick: (e) => {
-      if (
-        this.calendar.getApi().getCurrentData().currentViewType ==
-        'dayGridMonth'
-      )
-        this.calendar.getApi().changeView('timeGridDay', e.date);
+      if (this.calendar.getCurrentData().currentViewType == 'dayGridMonth')
+        this.calendar.changeView('timeGridDay', e.date);
     },
     editable: true,
     selectable: true,
@@ -87,11 +85,14 @@ export class CalendarComponent implements OnDestroy {
   ) {
     this._db.reservationsChanged.subscribe(() => this.mapReservations());
   }
+  public ngAfterViewInit(): void {
+    setTimeout(() => (this.calendar = this.calendarComponent.getApi()));
+  }
   /**
    * Called when there have been a selection in the calendar
    */
   public select(e: DateSelectArg): void {
-    if (this.calendar.getApi().view.type != 'dayGridMonth') this.addEvent(e);
+    if (this.calendar.view.type != 'dayGridMonth') this.addEvent(e);
   }
   /**
    * Adds a new event to the calendar
@@ -121,7 +122,7 @@ export class CalendarComponent implements OnDestroy {
     this._popup
       .open(AppointmentEditionComponent, { data: data, width: '600px' })
       .beforeClosed()
-      .subscribe(() => this.calendar.getApi().unselect());
+      .subscribe(() => this.calendar.unselect());
   }
   /**
    * On destroy removes subscription
@@ -174,10 +175,6 @@ export class CalendarComponent implements OnDestroy {
       };
     });
     this.options = { ...this.options, ...{ events: this.events } };
-  }
-
-  public generateYearHeader(date: Date) {
-    return `${MONTH_NAMES[date.getMonth()]} ${date.getFullYear()}`;
   }
 
   private _generateHeader(e: DayHeaderContentArg): string {

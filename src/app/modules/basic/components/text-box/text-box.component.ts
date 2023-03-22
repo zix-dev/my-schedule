@@ -7,21 +7,9 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 })
 export class TextBoxComponent {
   /**
-   * Hint to show under the box
-   */
-  @Input() public hint?: string;
-  /**
    * String to show in the box when it's empty
    */
   @Input() public placeholder: string = '';
-  /**
-   * String to show under the box when there is an error
-   */
-  @Input() public error?: string;
-  /**
-   * String to show the name of the field above the box
-   */
-  @Input() public label?: string;
   /**
    * Flag to set the component to readonly
    */
@@ -39,7 +27,7 @@ export class TextBoxComponent {
    */
   @Input() public value: string = '';
   /**
-  * Emits when value is changed
-  */
+   * Emits when value is changed
+   */
   @Output() public readonly valueChange = new EventEmitter<string>();
 }

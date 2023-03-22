@@ -3,35 +3,35 @@
     <btn
       type="primary"
       icon="fa-solid fa-angle-left"
-      (onClick)="calendar.getApi().prev()"
+      (onClick)="calendar.prev()"
     ></btn>
     <btn
       type="primary"
       icon="fa-solid fa-angle-right"
-      (onClick)="calendar.getApi().next()"
+      (onClick)="calendar.next()"
     ></btn>
   </div>
   <btn
     class="today"
     type="primary"
     text="Hoy"
-    (onClick)="calendar.getApi().today()"
+    (onClick)="calendar.today()"
   ></btn>
 </div>
 <div class="right">
   <btn
     type="primary"
     text="Mes"
-    (onClick)="calendar.getApi().changeView('dayGridMonth')"
+    (onClick)="calendar.changeView('dayGridMonth')"
   ></btn>
   <btn
     type="primary"
     text="Semana"
-    (onClick)="calendar.getApi().changeView('timeGridWeek')"
+    (onClick)="calendar.changeView('timeGridWeek')"
   ></btn>
   <btn
     type="primary"
     text="Día"
-    (onClick)="calendar.getApi().changeView('timeGridDay')"
+    (onClick)="calendar.changeView('timeGridDay')"
   ></btn>
 </div>

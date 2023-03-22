@@ -1,6 +1,4 @@
 <mat-form-field appearance="outline">
-  <mat-label *ngIf="label">{{ label }}</mat-label>
-  <mat-hint *ngIf="hint">{{ hint }}</mat-hint>
   <input
     matInput
     type="time"
@@ -9,5 +7,4 @@
     [readonly]="readonly"
     [disabled]="disabled"
   />
-  <mat-error *ngIf="error">{{ error }}</mat-error>
 </mat-form-field>

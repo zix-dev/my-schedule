@@ -1,7 +1,21 @@
 mat-form-field {
   width: 40px;
 
-  ::ng-deep .mat-form-field-flex {
-    padding: 0 9px;
+  ::ng-deep {
+    .mat-form-field-flex {
+      padding: 0 9px;
+    }
+    .mat-mdc-text-field-wrapper {
+      padding: 0 5px;
+    }
+    .mat-mdc-form-field-infix {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    input {
+      width: 25px !important;
+      height: 29px !important;
+    }
   }
 }
