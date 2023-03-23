@@ -66,7 +66,14 @@ export class ReservationService {
     const resStart = valueOf(res.start);
     const resEnd = valueOf(res.end);
     this.reservations.forEach((r) => {
-      if (r.day.toDate().getDate() != res.day.toDate().getDate()) return;
+      const date1 = res.day.toDate();
+      const date2 = r.day.toDate();
+      if (
+        date1.getDate() != date2.getDate() ||
+        date1.getMonth() != date2.getMonth() ||
+        date1.getFullYear() != date2.getFullYear()
+      )
+        return;
       if (r.id == res.id) return;
       if (
         areLinearOverlapped(resStart, resEnd, valueOf(r.start), valueOf(r.end))

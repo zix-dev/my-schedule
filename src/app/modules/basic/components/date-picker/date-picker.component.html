@@ -1,1 +1,6 @@
-<mat-calendar></mat-calendar>
+<mat-calendar
+  #cal
+  [(selected)]="generalValue"
+  (selectedChange)="valueChanged($event)"
+  [dateClass]="dateClass"
+></mat-calendar>

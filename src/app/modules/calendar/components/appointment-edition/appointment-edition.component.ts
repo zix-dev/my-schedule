@@ -10,6 +10,7 @@ import { Reservation } from '../../../common/models/reservation.models';
 import { Component, Inject } from '@angular/core';
 import { cloneDeep, isEqual } from 'lodash';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { ReservationRepetitionComponent } from '../reservation-repetition/reservation-repetition.component';
 
 @Component({
   selector: 'appointment-edition',
@@ -123,5 +124,12 @@ export class AppointmentEditionComponent {
       this.reservation.start == null ||
       this.reservation.end == null ||
       this.pristine;
+  }
+
+  public openReservationRepetition(): void {
+    this._popup.open(ReservationRepetitionComponent, {
+      data: this.reservation,
+      width: '500px',
+    });
   }
 }

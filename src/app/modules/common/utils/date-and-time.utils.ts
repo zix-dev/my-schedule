@@ -45,6 +45,13 @@ export function valueOf(time: Time): number {
   return time.hours * 60 + time.minutes;
 }
 
+export function removeTime(date: Date): void {
+  date.setHours(0);
+  date.setMinutes(0);
+  date.setSeconds(0);
+  date.setMilliseconds(0);
+}
+
 export function getDayMonthHeader(date: Date): string {
   return WEEK_NAMES[date.getDay()].substring(0, 3);
 }

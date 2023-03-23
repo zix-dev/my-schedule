@@ -22,6 +22,7 @@ import {
   getDayMonthHeader,
   getDayWeekHeader,
   isLater,
+  removeTime,
   timeToDate,
 } from 'src/app/modules/common/utils/date-and-time.utils';
 import { ReservationService } from '../../services/reservation.service';
@@ -99,9 +100,11 @@ export class CalendarComponent implements OnDestroy, AfterViewInit {
    */
   public addEvent(e: DateSelectArg): void {
     if (e.end.getDate() != e.start.getDate()) return;
+    const day = new Date(e.start);
+    removeTime(day);
     const data: Reservation = {
       title: '',
-      day: Timestamp.fromDate(e.start!),
+      day: Timestamp.fromDate(day),
       start: dateToTime(e.start),
       end: dateToTime(e.end),
       color: '#cccccc',

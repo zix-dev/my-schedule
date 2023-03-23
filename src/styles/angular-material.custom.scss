@@ -37,3 +37,13 @@ button.cdk-focused .mat-mdc-button-persistent-ripple::before {
 button.cdk-focused:hover .mat-mdc-button-persistent-ripple::before {
   opacity: 0.04 !important;
 }
+div.mat-calendar-body-selected {
+  background-color: unset;
+  color: unset;
+}
+
+.selected-date .mat-calendar-body-cell-content {
+  background-color: #e2e3ff;
+  border-radius: 100%;
+  color: #000;
+}

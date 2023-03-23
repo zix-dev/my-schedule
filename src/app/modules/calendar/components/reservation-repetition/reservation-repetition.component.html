@@ -1,0 +1,10 @@
+<date-picker
+  #cal
+  [(value)]="selectedDate"
+  [selectedDates]="selectedDates"
+  [currentDate]="viewDate"
+  (valueChange)="copy()"
+></date-picker>
+<div class="footer">
+  <btn type="primary" text="Listo" (onClick)="dialogRef.close()"></btn>
+</div>
